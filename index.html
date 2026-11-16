@@ -46,7 +46,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}.mq{animation:mq 40s linear infinite}
 @keyframes lg{from{transform:translateX(0)}to{transform:translateX(-50%)}}.lgt{animation:lg 80s linear infinite}.lg:hover .lgt{animation-play-state:paused}
 .lg{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.pb{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;padding:8px;border-radius:14px;background:rgba(255,255,255,0.1)}.pb img{display:block;width:100%;height:100%;object-fit:contain;border-radius:6px}
+.pb{position:relative;aspect-ratio:4/5;border-radius:14px;background:rgba(255,255,255,0.1);overflow:hidden}.pb img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:contain}
 .lgi{flex:none;height:48px;margin-right:72px;display:flex;align-items:center;justify-content:center}.lgi img{height:48px;width:auto;max-width:220px;object-fit:contain;display:block}
 @media (max-width:640px){.lgi{height:40px;margin-right:44px}.lgi img{height:40px;max-width:170px}#about h2{font-size:24px!important}}</style>
 </head>
