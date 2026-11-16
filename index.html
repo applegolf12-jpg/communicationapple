@@ -46,6 +46,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}.mq{animation:mq 40s linear infinite}
 @keyframes lg{from{transform:translateX(0)}to{transform:translateX(-50%)}}.lgt{animation:lg 80s linear infinite}.lg:hover .lgt{animation-play-state:paused}
 .lg{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.svb{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#EEF1EE}.svb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .pb{position:relative;aspect-ratio:4/5;border-radius:14px;background:rgba(255,255,255,0.1);overflow:hidden}.pb img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:contain}
 .lgi{flex:none;height:48px;margin-right:72px;display:flex;align-items:center;justify-content:center}.lgi img{height:48px;width:auto;max-width:220px;object-fit:contain;display:block}
 @media (max-width:640px){.lgi{height:40px;margin-right:44px}.lgi img{height:40px;max-width:170px}#about h2{font-size:24px!important}}</style>
@@ -88,9 +89,9 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <section style="max-width: 1320px; margin: 0 auto; padding: 120px 24px 40px">
 <h2 style="margin: 0 0 40px; font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 44px; letter-spacing: 0.02em">SERVICES</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px">
-<a href="proam.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div style="border-radius: 20px; overflow: hidden; height: 240px; background: #E9ECE8"><img src="img/59af148e5c87.jpg" alt="이벤트 프로암 참가 프로 단체 사진" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block"></div><span style="font-size: 20px; font-weight: 700">이벤트 프로암</span></a>
-<a href="corporate.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div style="border-radius: 20px; overflow: hidden; height: 240px; background: #E9ECE8"><img src="img/34f55d590363.jpg" alt="제7회 코스트코 코리아 채리티 클래식 행사장" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block"></div><span style="font-size: 20px; font-weight: 700">기업·VIP 골프 행사</span></a>
-<a href="academy.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div style="border-radius: 20px; overflow: hidden; height: 240px; background: #E9ECE8"><img src="img/505c99647745.jpg" alt="2027 애플 동계 아카데미 칸차나부리편 포스터" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block"></div><span style="font-size: 20px; font-weight: 700">애플골프아카데미</span></a>
+<a href="proam.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div class="svb"><img src="img/59af148e5c87.jpg" alt="이벤트 프로암 참가 프로 단체 사진" loading="lazy" ></div><span style="font-size: 20px; font-weight: 700">이벤트 프로암</span></a>
+<a href="corporate.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div class="svb"><img src="img/34f55d590363.jpg" alt="제7회 코스트코 코리아 채리티 클래식 행사장" loading="lazy" ></div><span style="font-size: 20px; font-weight: 700">기업·VIP 골프 행사</span></a>
+<a href="academy.html" class="card" style="display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: #141A17"><div class="svb"><img src="img/505c99647745.jpg" alt="2027 애플 동계 아카데미 칸차나부리편 포스터" loading="lazy" ></div><span style="font-size: 20px; font-weight: 700">애플골프아카데미</span></a>
 </div>
 </section>
 
