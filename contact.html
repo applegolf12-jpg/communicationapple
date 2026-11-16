@@ -55,7 +55,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 
 <section style="max-width: 1320px; margin: 0 auto; padding: 0 24px 100px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
 <div style="flex: 3 1 560px; min-width: 0; border: 1px solid #D5DAD6; border-radius: 28px; padding: clamp(24px, 4vw, 40px)">
-<form id="inq" novalidate style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+<form id="inq" novalidate style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
 <div class="fld"><label for="f-name">이름 *</label><input id="f-name" name="이름" type="text" placeholder="홍길동" required autocomplete="name"></div>
 <div class="fld"><label for="f-company">회사 / 소속</label><input id="f-company" name="회사" type="text" placeholder="회사명" autocomplete="organization"></div>
 <div class="fld"><label for="f-phone">연락처 *</label><input id="f-phone" name="연락처" type="tel" placeholder="010-0000-0000" required autocomplete="tel"></div>
@@ -67,8 +67,14 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 10px"><input id="f-agree" type="checkbox" style="width: 20px; height: 20px; padding: 0"><label for="f-agree" style="font-weight: 500">개인정보 수집·이용에 동의합니다 (필수)</label></div>
 <p id="f-err" role="alert" hidden style="grid-column: 1 / -1; margin: 0; color: #B3261E; font-size: 14px; font-weight: 700"></p>
 <div style="grid-column: 1 / -1"><button type="submit" style="width: 100%; min-height: 56px; border: none; border-radius: 12px; background: #1F4D3F; color: #FFFFFF; font-family: inherit; font-weight: 700; font-size: 16px; cursor: pointer">문의 보내기</button></div>
-<p style="grid-column: 1 / -1; margin: 0; font-size: 13px; color: #5A645F">보내기를 누르면 작성하신 내용이 담긴 메일 창이 열립니다. 메일 앱이 없다면 applegolf12@gmail.com 으로 직접 보내 주세요.</p>
+<div aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden"><label for="f-web">웹사이트</label><input id="f-web" type="text" tabindex="-1" autocomplete="off"></div>
 </form>
+<div id="inq-done" tabindex="-1" hidden style="min-height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; outline: none">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1F4D3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l3 3 5-6"></path></svg>
+<h2 style="margin: 0; font-size: 24px; font-weight: 900">문의가 접수되었습니다</h2>
+<p style="margin: 0; font-size: 15px; color: #3E4843; word-break: keep-all">담당자가 확인 후 연락드리겠습니다. 급한 문의는 031-625-9017로 전화 주세요.</p>
+<button type="button" id="inq-again" style="margin-top: 8px; min-height: 44px; padding: 0 22px; border-radius: 10px; border: 1.5px solid #141A17; background: #FFFFFF; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer">새 문의 작성</button>
+</div>
 </div>
 
 <aside style="flex: 2 1 360px; display: flex; flex-direction: column; gap: 24px">
@@ -109,12 +115,16 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <p style="max-width: 1320px; margin: 40px auto 0; font-size: 12px; color: #A9BFB4">© Communication Apple. All rights reserved.</p>
 </footer>
 <script>(function(){var b=document.querySelector('.mbtn'),n=document.getElementById('gnb');b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'메뉴 닫기':'메뉴 열기');});})();</script>
-<script>(function(){var f=document.getElementById('inq'),er=document.getElementById('f-err');
+<script>(function(){var URL_='https://script.google.com/macros/s/AKfycbzhxdmpaMAjDgBlKLcWKRUhzRguJeHrj44hPz4J7pTjutgs4Lx3ZFxxPX8HWqaTiKO3/exec';
+var f=document.getElementById('inq'),er=document.getElementById('f-err'),btn=f.querySelector('button[type=submit]'),done=document.getElementById('inq-done');
+function v(id){return document.getElementById(id).value.trim()}
 f.addEventListener('submit',function(e){e.preventDefault();var miss=[];['f-name','f-phone','f-msg'].forEach(function(id){var el=document.getElementById(id);var bad=!el.value.trim();el.setAttribute('aria-invalid',bad);if(bad)miss.push(el.labels[0].textContent.replace(' *',''))});
 if(miss.length){er.textContent=miss.join(', ')+' 항목을 입력해 주세요.';er.hidden=false;return;}
 if(!document.getElementById('f-agree').checked){er.textContent='개인정보 수집·이용에 동의해 주세요.';er.hidden=false;return;}
-er.hidden=true;var lines=[];f.querySelectorAll('[name]').forEach(function(el){if(el.value.trim())lines.push(el.name+': '+el.value.trim())});
-var subj='[홈페이지 문의] '+document.getElementById('f-type').value+' - '+document.getElementById('f-name').value.trim();
-location.href='mailto:applegolf12@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(lines.join('\n'));});})();</script>
+er.hidden=true;btn.disabled=true;btn.textContent='보내는 중…';
+var d=new URLSearchParams({name:v('f-name'),company:v('f-company'),phone:v('f-phone'),email:v('f-email'),type:v('f-type'),size:v('f-size'),date:v('f-date'),msg:v('f-msg'),website:v('f-web')});
+fetch(URL_,{method:'POST',mode:'no-cors',body:d}).then(function(){f.hidden=true;done.hidden=false;done.focus();window.scrollTo({top:done.getBoundingClientRect().top+scrollY-120,behavior:'smooth'});})
+.catch(function(){er.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';er.hidden=false;btn.disabled=false;btn.textContent='문의 보내기';});});
+document.getElementById('inq-again').addEventListener('click',function(){f.reset();f.hidden=false;done.hidden=true;btn.disabled=false;btn.textContent='문의 보내기';});})();</script>
 </body>
 </html>
