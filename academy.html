@@ -283,7 +283,7 @@ f.addEventListener('submit',function(e){e.preventDefault();var m=check();
  var tot=(r.x.price*r.cnt)+(x.p.single*x.nights*r.sg);
  var row={place:(prod()==='k'?'칸차나부리':'아마타'),product:x.p.name,session_no:x.no,period:fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일)',pro:pro.value,people:r.cnt,single_rooms:r.sg,mates:$('ap-mates').value.trim()||null,total_won:tot,breakdown:r.lines.join(' / '),request:$('ap-msg').value.trim()||null,name:$('ap-name').value.trim(),phone:$('ap-phone').value.trim()};
  var bot=!!$('ap-web').value;
- var dbp=(CA.on&&CA.sb&&!bot)?CA.sb.from('academy_applications').insert(row).then(function(res){if(res.error)throw res.error;return 1}):Promise.reject('off');
+ var dbp=bot?Promise.reject('bot'):CA.save('academy_applications',row);
  var gp=fetch(URL_,{method:'POST',mode:'no-cors',body:d});
  Promise.allSettled([dbp,gp]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;
   $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})

@@ -1,7 +1,7 @@
-/* 로그인 상태 공통 처리 */
+/* 로그인 상태 공통 처리. 신청·문의 저장(CA.save)은 회원 기능 공개 여부와 관계없이 동작 */
 (function () {
   var C = window.SB_CONFIG || {};
-  var on = !!(C.url && C.key && C.memberOpen !== false);
+  var conn = !!(C.url && C.key), on = conn && C.memberOpen !== false;
   var CA = window.CA = { on: on, sb: null, user: null, profile: null };
   function load() {
     if (window.supabase) return Promise.resolve();
@@ -16,14 +16,15 @@
     return CA.sb.from('profiles').select('*').eq('id', CA.user.id).maybeSingle()
       .then(function (r) { CA.profile = r.data || null; return CA.profile; });
   };
-  CA.ready = !on ? Promise.resolve(null) : load().then(function () {
+  CA.ready = !conn ? Promise.resolve(null) : load().then(function () {
     CA.sb = window.supabase.createClient(C.url, C.key);
+    if (!on) return { data: { session: null } };
     return CA.sb.auth.getSession();
   }).then(function (r) {
     CA.user = (r.data.session && r.data.session.user) || null;
     return CA.loadProfile();
   }).then(function () { return CA.user; }).catch(function (e) {
-    console.warn('auth unavailable', e); CA.on = false; return null;
+    console.warn('db unavailable', e); CA.on = false; CA.sb = null; return null;
   });
   CA.ready.then(function (u) {
     document.querySelectorAll('[data-auth-link]').forEach(function (a) {
@@ -33,6 +34,12 @@
       else { a.textContent = '로그인'; a.href = 'login.html'; }
     });
   });
+  CA.save = function (table, row) {
+    return CA.ready.then(function () {
+      if (!CA.sb) throw 'off';
+      return CA.sb.from(table).insert(row).then(function (r) { if (r.error) throw r.error; return 1; });
+    });
+  };
   CA.err = function (e) {
     var m = (e && (e.message || e.error_description)) || '';
     if (/Invalid login credentials/i.test(m)) return '이메일 또는 비밀번호가 맞지 않습니다.';
