@@ -37,8 +37,8 @@ def header(cur):
             links += f'<a href="{href}" class="nv">{label}</a>'
     on = ' aria-current="page"' if cur == 'contact.html' else ''
     aon = ' aria-current="page"' if cur in ('login.html', 'mypage.html') else ''
-    links += f'<a href="login.html" data-auth-link hidden{aon} class="nv">로그인/회원가입</a>'
-    links += f'<a href="contact.html"{on} class="nv cta">행사 문의</a>'
+    links += f'<a href="contact.html"{on} class="nv{" on" if on else ""}">행사 문의</a>'
+    links += f'<a href="login.html" data-auth-link hidden{aon} class="nv cta">로그인/회원가입</a>'
     return f'''<header class="hd">
 <a href="index.html" class="brand"><img src="/_blob/38b7d85e32bce85786fa19ae20b3a998" alt="" width="44" height="44" style="border-radius: 50%"><span>COMMUNICATION APPLE</span></a>
 <button type="button" class="mbtn" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
@@ -75,6 +75,8 @@ a:focus-visible,button:focus-visible{outline:2px solid #1F4D3F;outline-offset:2p
 .nv.cta{color:#fff;background:#1F4D3F;padding:11px 20px;border-radius:999px}
 .nv.cta[aria-current]{background:#0E2A21}
 .mbtn{display:none;width:44px;height:44px;border:none;background:none;color:#141A17;cursor:pointer;align-items:center;justify-content:center}
+@media (min-width:901px) and (max-width:1200px){#gnb{gap:8px 18px;font-size:14px}.nv.cta{padding:10px 16px}.brand span{font-size:15px}}
+.brand span{white-space:nowrap}
 @media (max-width:900px){
  .mbtn{display:flex}
  #gnb{display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:8px 24px 20px;border-bottom:1px solid #D5DAD6;box-shadow:0 12px 24px rgba(0,0,0,.06)}
