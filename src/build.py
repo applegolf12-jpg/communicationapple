@@ -37,7 +37,7 @@ def header(cur):
             links += f'<a href="{href}" class="nv">{label}</a>'
     on = ' aria-current="page"' if cur == 'contact.html' else ''
     aon = ' aria-current="page"' if cur in ('login.html', 'mypage.html') else ''
-    links += f'<a href="login.html" data-auth-link hidden{aon} class="nv">로그인</a>'
+    links += f'<a href="login.html" data-auth-link hidden{aon} class="nv">로그인/회원가입</a>'
     links += f'<a href="contact.html"{on} class="nv cta">행사 문의</a>'
     return f'''<header class="hd">
 <a href="index.html" class="brand"><img src="/_blob/38b7d85e32bce85786fa19ae20b3a998" alt="" width="44" height="44" style="border-radius: 50%"><span>COMMUNICATION APPLE</span></a>

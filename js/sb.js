@@ -31,7 +31,7 @@
       if (!CA.on) { a.remove(); return; }
       a.hidden = false;
       if (u) { a.textContent = '마이페이지'; a.href = 'mypage.html'; }
-      else { a.textContent = '로그인'; a.href = 'login.html'; }
+      else { a.textContent = '로그인/회원가입'; a.href = 'login.html'; }
     });
   });
   CA.save = function (table, row) {
