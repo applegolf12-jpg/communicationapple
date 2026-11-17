@@ -143,8 +143,8 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 <dialog id="dlg" aria-labelledby="dlg-h"><div class="dlg" id="dlg-b"></div></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="../js/config.js"></script>
-<script src="../js/academy-data.js"></script>
+<script src="../js/config.js?v=71eaeca4"></script>
+<script src="../js/academy-data.js?v=71eaeca4"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
 <script>
 (function(){
@@ -166,7 +166,8 @@ function errMsg(e){var m=(e&&e.message)||'';if(/Invalid login/i.test(m))return '
 
 /* ---------- 로그인 ---------- */
 function show(id){['boot','login','app'].forEach(function(x){$(x).hidden=x!==id})}
-if(!C.url||!C.key||!window.supabase){$('boot').textContent='Supabase 연결 정보가 아직 설정되지 않았습니다 (js/config.js).';return}
+if(!C.url||!C.key){$('boot').textContent='Supabase 연결 정보가 아직 설정되지 않았습니다. Ctrl+Shift+R로 새로고침해 보세요.';return}
+if(!window.supabase){$('boot').textContent='로그인 모듈(cdn.jsdelivr.net)을 불러오지 못했습니다. 인터넷 연결이나 광고 차단 확장 프로그램을 확인한 뒤 새로고침해 주세요.';return}
 sb=supabase.createClient(C.url,C.key);
 function enter(user){return sb.rpc('is_admin').then(function(r){if(r.error||!r.data){return sb.auth.signOut().then(function(){show('login');var m=$('lg-m');m.textContent='관리자 권한이 없는 계정입니다.';m.hidden=false})}
  me=user;$('who').textContent=user.email;show('app');return loadAll()})}
