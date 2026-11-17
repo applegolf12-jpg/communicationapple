@@ -147,12 +147,14 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <label><input type="radio" name="prod" value="a"><span>아마타 프레스티지<small>아마타 스프링 CC</small></span></label>
 </div></div>
 <div class="fld" style="grid-column: 1 / -1"><label for="ap-sess">차수 *</label><select id="ap-sess"></select><small id="ap-sess-hint" class="hint"></small></div>
+<div class="fld" style="grid-column: 1 / -1"><label for="ap-pro">담당 프로 *</label><select id="ap-pro"></select><small id="ap-pro-hint" class="hint"></small></div>
 <div class="fld"><label for="ap-n">참가 인원 *</label><select id="ap-n"></select></div>
 <div class="fld"><label for="ap-single">1인실 사용 여부</label><select id="ap-single"></select></div>
-<div class="fld"><label for="ap-name">신청자 이름 *</label><input id="ap-name" type="text" autocomplete="name" placeholder="홍길동"></div>
+<div class="fld" style="grid-column: 1 / -1"><label for="ap-name">신청자 이름 *</label><input id="ap-name" type="text" autocomplete="name" placeholder="홍길동"></div>
 <div class="fld"><label for="ap-phone">휴대폰 번호 *</label><input id="ap-phone" type="tel" autocomplete="tel" placeholder="010-0000-0000"></div>
+<div class="fld"><label for="ap-phone2">휴대폰 번호 확인 *</label><input id="ap-phone2" type="tel" autocomplete="off" placeholder="한 번 더 입력해 주세요"><small id="ap-phone-hint" class="hint" aria-live="polite"></small></div>
 <div class="fld" style="grid-column: 1 / -1"><label for="ap-mates">동반자 이름</label><input id="ap-mates" type="text" placeholder="예: 김철수, 이영희"></div>
-<div class="fld" style="grid-column: 1 / -1"><label for="ap-msg">요청사항</label><textarea id="ap-msg" rows="3" placeholder="희망 동행 프로, 객실 배정, 골프 실력 등"></textarea></div>
+<div class="fld" style="grid-column: 1 / -1"><label for="ap-msg">요청사항</label><textarea id="ap-msg" rows="3" placeholder="객실 배정, 골프 실력 등"></textarea></div>
 <div id="ap-sum" class="sum" style="grid-column: 1 / -1" aria-live="polite"></div>
 <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 10px"><input id="ap-agree" type="checkbox" style="width: 20px; height: 20px; padding: 0"><label for="ap-agree" style="font-weight: 500">개인정보 수집·이용에 동의합니다 (필수)</label></div>
 <p id="ap-err" role="alert" hidden style="grid-column: 1 / -1; margin: 0; color: #B3261E; font-size: 14px; font-weight: 700"></p>
@@ -235,6 +237,7 @@ var P={
      [12,'2027-02-12','2027-02-16',3,2550000,'김송연·김주미'],[13,'2027-02-16','2027-02-20',3,2200000,'김송연·김주미'],[14,'2027-02-19','2027-02-23',3,2550000,'김송연·배경은'],[15,'2027-02-23','2027-02-27',3,2200000,'김송연·배경은'],[16,'2027-02-26','2027-03-02',3,2550000,'김송연·배경은']]}
 };
 var f=document.getElementById('apf'),$=function(id){return document.getElementById(id)};
+var pro=$('ap-pro'),proHint=$('ap-pro-hint'),ph1=$('ap-phone'),ph2=$('ap-phone2'),phHint=$('ap-phone-hint');
 var sess=$('ap-sess'),n=$('ap-n'),single=$('ap-single'),sum=$('ap-sum'),err=$('ap-err'),hint=$('ap-sess-hint');
 function won(x){return x.toLocaleString('ko-KR')+'원'}
 function man(x){return (x/10000)+'만원'}
@@ -250,31 +253,40 @@ function fillSess(){var p=prod(),ok=0;sess.innerHTML='<option value="">차수를
  var lab=x[0]+'차 · '+md(D(x[1]))+' ~ '+md(D(x[2]))+' · '+x[3]+'박'+(x[3]+2)+'일 · '+man(x[4])+' · '+x[5]+' 프로'+(p==='a'&&x[6]?' · '+x[6]:'')+(c?' (마감)':'');
  return '<option value="'+x[0]+'"'+(c?' disabled':'')+'>'+lab+'</option>'}).join('');
  hint.textContent=P[p].note+(ok?'':' · 현재 신청 가능한 차수가 없습니다');update()}
+function pros(){var x=S();return x?x.pro.split('·'):[]}
+function fillPro(){var l=pros(),v=pro.value;if(!l.length){pro.innerHTML='<option value="">차수를 먼저 선택해 주세요</option>';pro.disabled=true;proHint.textContent='';return}
+ pro.disabled=false;if(l.length===1){pro.innerHTML='<option value="'+l[0]+'">'+l[0]+' 프로</option>';proHint.textContent='이 차수는 '+l[0]+' 프로가 단독으로 진행합니다.'}
+ else{pro.innerHTML='<option value="">프로를 선택해 주세요</option>'+l.map(function(p){return '<option value="'+p+'">'+p+' 프로</option>'}).join('');pro.value=l.indexOf(v)>=0?v:'';proHint.textContent='이 차수는 '+l.join('·')+' 프로가 함께 진행합니다. 레슨 받을 프로 한 명을 골라 주세요.'}}
+function phoneMatch(){var a=ph1.value,b=ph2.value;if(!b){phHint.textContent='';phHint.style.color='';ph2.removeAttribute('aria-invalid');return}
+ if(b.length<a.length&&a.indexOf(b)===0){phHint.textContent='';ph2.removeAttribute('aria-invalid');return}
+ var ok=a===b;phHint.textContent=ok?'✓ 번호가 일치합니다':'번호가 일치하지 않습니다';phHint.style.color=ok?'#1F6B45':'#B3261E';ph2.setAttribute('aria-invalid',!ok)}
+[ph1,ph2].forEach(function(el){el.addEventListener('input',function(){setTimeout(phoneMatch,0)})});
 function fillN(){var v=+n.value||1;n.innerHTML='';for(var i=1;i<=8;i++)n.innerHTML+='<option value="'+i+'">'+i+'명</option>';n.value=Math.min(v,8);fillS()}
 function fillS(){var v=+single.value||0,max=+n.value,x=S(),pp=P[prod()].single,nt=x?x.nights:null;single.innerHTML='';for(var i=0;i<=max;i++)single.innerHTML+='<option value="'+i+'">'+(i?(max===1?'사용':i+'명 사용')+' · 1박당 '+won(pp)+(nt?' × '+nt+'박 = +'+won(pp*nt*i):''):'사용 안 함 (2인 1실)')+'</option>';single.value=Math.min(v,max);update()}
-function check(){return sess.value?'':'차수를 선택해 주세요.'}
+function check(){return !sess.value?'차수를 선택해 주세요.':(!pro.value?'담당 프로를 선택해 주세요.':'')}
 function calc(){var x=S(),cnt=+n.value,sg=+single.value,lines=[],total='';if(!x)return {x:null,cnt:cnt,sg:sg,lines:lines,total:''};
  var base=x.price*cnt;lines.push('참가비 '+won(x.price)+' × '+cnt+'명 = '+won(base));
  if(x.p.single){var add=x.p.single*x.nights*sg;if(sg)lines.push('1인실 추가 '+sg+'명 × '+x.nights+'박 × '+won(x.p.single)+' = '+won(add));total=won(base+add)}
  else{if(sg)lines.push('1인실 추가 '+sg+'명 · 추가 요금은 결제 안내 시 확정');total=won(base)+(sg?' + 1인실 추가 요금':'')}
  return {x:x,cnt:cnt,sg:sg,lines:lines,total:total}}
 function update(){var r=calc();if(!r.x){sum.innerHTML='<div class="sum-h">예상 금액</div><div class="sum-w">차수를 선택하면 금액이 계산됩니다</div>';return}
- var x=r.x;sum.innerHTML='<div class="sum-h">예상 금액</div><div class="sum-w">'+x.no+'차 · '+fmt(x.s)+' ~ '+fmt(x.e)+' · '+x.nights+'박'+x.days+'일 · '+x.pro+' 프로</div>'+r.lines.map(function(l){return '<div>'+l+'</div>'}).join('')+'<div class="sum-t">'+r.total+'</div><div class="sum-n">부가세 포함 · 항공권, 카트비·캐디피·캐디팁 불포함'+(x.deadline?' · 신청 마감 '+fmt(x.deadline):'')+' · 최종 금액은 결제 안내 문자로 확정됩니다.</div>'}
-f.addEventListener('change',function(e){if(e.target.name==='prod'){fillSess();fillS()}else if(e.target===n||e.target===sess)fillS();else update();if(e.target===sess&&sess.value)err.hidden=true});
-document.querySelectorAll('[data-apply]').forEach(function(a){a.addEventListener('click',function(){f.querySelector('input[value='+a.dataset.apply+']').checked=true;fillSess();fillS()})});
+ var x=r.x;sum.innerHTML='<div class="sum-h">예상 금액</div><div class="sum-w">'+x.no+'차 · '+fmt(x.s)+' ~ '+fmt(x.e)+' · '+x.nights+'박'+x.days+'일'+(pro.value?' · '+pro.value+' 프로':'')+'</div>'+r.lines.map(function(l){return '<div>'+l+'</div>'}).join('')+'<div class="sum-t">'+r.total+'</div><div class="sum-n">부가세 포함 · 항공권, 카트비·캐디피·캐디팁 불포함'+(x.deadline?' · 신청 마감 '+fmt(x.deadline):'')+' · 최종 금액은 결제 안내 문자로 확정됩니다.</div>'}
+f.addEventListener('change',function(e){if(e.target.name==='prod'){fillSess();fillPro();fillS()}else if(e.target===sess){fillPro();fillS()}else if(e.target===n)fillS();else update();if((e.target===sess||e.target===pro)&&!check())err.hidden=true});
+document.querySelectorAll('[data-apply]').forEach(function(a){a.addEventListener('click',function(){f.querySelector('input[value='+a.dataset.apply+']').checked=true;fillSess();fillPro();fillS()})});
 f.addEventListener('submit',function(e){e.preventDefault();var m=check();
  var miss=[];[['ap-name','신청자 이름'],['ap-phone','휴대폰 번호']].forEach(function(x){var el=$(x[0]),bad=!el.value.trim();el.setAttribute('aria-invalid',bad);if(bad)miss.push(x[1])});
  if(miss.length)m=miss.join(', ')+' 항목을 입력해 주세요.';
  else if(!/^01[016789]-\d{3,4}-\d{4}$/.test($('ap-phone').value)){m='휴대폰 번호를 정확히 입력해 주세요. (예: 010-1234-5678)';$('ap-phone').setAttribute('aria-invalid',true)}
+ else if(ph2.value!==ph1.value){m=ph2.value?'휴대폰 번호가 서로 다릅니다. 두 칸에 같은 번호를 입력해 주세요.':'휴대폰 번호 확인 칸을 입력해 주세요.';ph2.setAttribute('aria-invalid',true);ph2.focus()}
  if(!m&&!$('ap-agree').checked)m='개인정보 수집·이용에 동의해 주세요.';
  if(m){err.textContent=m;err.hidden=false;return}
  err.hidden=true;var r=calc(),btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='보내는 중…';
- var x=r.x,detail=['[아카데미 신청]','상품: '+x.p.name,'차수: '+x.no+'차 · '+fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일) · '+x.pro+' 프로','인원: '+r.cnt+'명 / 1인실 '+r.sg+'명','동반자: '+($('ap-mates').value.trim()||'-'),'예상 금액: '+r.total,r.lines.join(' / '),'요청사항: '+($('ap-msg').value.trim()||'-')].join('\n');
- var d=new URLSearchParams({kind:'academy',place:(prod()==='k'?'칸차나부리':'아마타'),product:x.p.name,session:x.no+'차',period:fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일)',pro:x.pro,people:r.cnt+'명',single:r.sg?r.sg+'명':'사용 안 함',mates:$('ap-mates').value.trim(),total:r.total,breakdown:r.lines.join(' / '),request:$('ap-msg').value.trim(),name:$('ap-name').value.trim(),phone:$('ap-phone').value.trim(),email:'',company:'',type:'아카데미 신청 - '+(prod()==='k'?'칸차나부리':'아마타'),size:r.cnt+'명 (1인실 '+r.sg+'명)',date:x.no+'차 '+fmt(x.s)+' 출발 · '+x.nights+'박'+x.days+'일',msg:detail,website:$('ap-web').value});
+ var x=r.x,detail=['[아카데미 신청]','상품: '+x.p.name,'차수: '+x.no+'차 · '+fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일) · '+pro.value+' 프로 (차수 담당: '+x.pro+')','인원: '+r.cnt+'명 / 1인실 '+r.sg+'명','동반자: '+($('ap-mates').value.trim()||'-'),'예상 금액: '+r.total,r.lines.join(' / '),'요청사항: '+($('ap-msg').value.trim()||'-')].join('\n');
+ var d=new URLSearchParams({kind:'academy',place:(prod()==='k'?'칸차나부리':'아마타'),product:x.p.name,session:x.no+'차',period:fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일)',pro:pro.value,people:r.cnt+'명',single:r.sg?r.sg+'명':'사용 안 함',mates:$('ap-mates').value.trim(),total:r.total,breakdown:r.lines.join(' / '),request:$('ap-msg').value.trim(),name:$('ap-name').value.trim(),phone:$('ap-phone').value.trim(),email:'',company:'',type:'아카데미 신청 - '+(prod()==='k'?'칸차나부리':'아마타'),size:r.cnt+'명 (1인실 '+r.sg+'명)',date:x.no+'차 '+fmt(x.s)+' 출발 · '+x.nights+'박'+x.days+'일',msg:detail,website:$('ap-web').value});
  fetch(URL_,{method:'POST',mode:'no-cors',body:d}).then(function(){f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})
  .catch(function(){err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';err.hidden=false;btn.disabled=false;btn.textContent='신청서 보내기'})});
-$('ap-again').addEventListener('click',function(){f.reset();f.hidden=false;$('ap-done').hidden=true;var b=f.querySelector('button[type=submit]');b.disabled=false;b.textContent='신청서 보내기';fillSess();fillN()});
-fillSess();fillN();
+$('ap-again').addEventListener('click',function(){f.reset();f.hidden=false;$('ap-done').hidden=true;var b=f.querySelector('button[type=submit]');b.disabled=false;b.textContent='신청서 보내기';fillSess();fillPro();fillN();phoneMatch()});
+fillSess();fillPro();fillN();
 })();</script>
 <script>(function(){var G={"k": {"t": "2027 애플 동계 아카데미 IN 칸차나부리", "i": ["img/5e17e5693586.jpg", "img/f5900bd5f280.jpg", "img/36543fcf7411.jpg", "img/2b58b18a2534.jpg", "img/353872baaba5.jpg"]}, "a": {"t": "2027 애플 동계 프레스티지 골프 아카데미 IN 아마타", "i": ["img/94ce0a6a0fa2.jpg", "img/c4b40ee77166.jpg", "img/cc10d732bec0.jpg", "img/91d28e653057.jpg", "img/de4bc0584104.jpg", "img/0522c0ee42e0.jpg", "img/7a8422fc716f.jpg", "img/180222081a62.jpg", "img/a9a962d8c9a2.jpg", "img/15b43a8274fc.jpg", "img/ba5511ea83cf.jpg"]}},lb=document.getElementById('lb'),im=document.getElementById('lbi'),tt=document.getElementById('lbt'),g=null,i=0,opener=null;
 function show(){var n=G[g].i.length;im.src=G[g].i[i];im.alt=G[g].t+' 상세 안내 '+(i+1);tt.textContent=G[g].t+' · '+(i+1)+' / '+n;}
