@@ -1,7 +1,7 @@
 /* 로그인 상태 공통 처리 */
 (function () {
   var C = window.SB_CONFIG || {};
-  var on = !!(C.url && C.key);
+  var on = !!(C.url && C.key && C.memberOpen !== false);
   var CA = window.CA = { on: on, sb: null, user: null, profile: null };
   function load() {
     if (window.supabase) return Promise.resolve();
