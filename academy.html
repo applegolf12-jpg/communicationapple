@@ -77,7 +77,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <header class="hd">
 <a href="index.html" class="brand"><img src="img/38b7d85e32bc.png" alt="" width="44" height="44" style="border-radius: 50%"><span>COMMUNICATION APPLE</span></a>
 <button type="button" class="mbtn" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-<nav id="gnb" aria-label="주 메뉴"><a href="index.html#about" class="nv">회사소개</a><a href="proam.html" class="nv">이벤트 프로암</a><a href="corporate.html" class="nv">기업·VIP 행사</a><a href="academy.html" aria-current="page" class="nv on">애플골프아카데미</a><a href="contact.html" class="nv cta">행사 문의</a></nav>
+<nav id="gnb" aria-label="주 메뉴"><a href="index.html#about" class="nv">회사소개</a><a href="proam.html" class="nv">이벤트 프로암</a><a href="corporate.html" class="nv">기업·VIP 행사</a><a href="academy.html" aria-current="page" class="nv on">애플골프아카데미</a><a href="login.html" data-auth-link hidden class="nv">로그인</a><a href="contact.html" class="nv cta">행사 문의</a></nav>
 </header>
 <main>
 <section style="max-width: 1320px; margin: 0 auto; padding: 56px 24px 64px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px">
@@ -141,6 +141,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 </div>
 <div style="flex: 1.6 1 520px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: clamp(24px, 4vw, 40px)">
 <form id="apf" novalidate style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
+<p id="ap-mem" hidden style="grid-column: 1 / -1; margin: 0; padding: 12px 16px; border-radius: 12px; background: #EEF4F1; font-size: 14px; line-height: 1.6; color: #1F4D3F; word-break: keep-all"></p>
 <div class="fld" style="grid-column: 1 / -1"><span class="lbl">상품 *</span>
 <div class="seg" role="radiogroup" aria-label="상품">
 <label><input type="radio" name="prod" value="k" checked><span>칸차나부리<small>아티타야 골프 리조트</small></span></label>
@@ -165,6 +166,8 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1F4D3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l3 3 5-6"></path></svg>
 <h3 style="margin: 0; font-size: 24px; font-weight: 900">신청서가 접수되었습니다</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #3E4843; word-break: keep-all">담당자가 일정과 금액을 확인한 뒤<br>결제 안내 문자를 보내드립니다. 입금 확인 후 예약이 확정됩니다.</p>
+<p id="ap-done-mem" hidden style="margin: 0; font-size: 14px"><a href="mypage.html" style="font-weight: 700">마이페이지에서 신청 내역 보기 →</a></p>
+<p id="ap-done-join" hidden style="margin: 0; font-size: 14px; color: #3E4843">다음 신청부터 정보를 자동으로 채우려면 <a href="login.html?tab=signup" style="font-weight: 700">회원가입</a></p>
 <button type="button" id="ap-again" style="margin-top: 8px; min-height: 44px; padding: 0 22px; border-radius: 10px; border: 1.5px solid #141A17; background: #FFFFFF; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer">새 신청서 작성</button>
 </div>
 </div>
@@ -214,6 +217,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <a href="corporate.html" style="color: #DCE9E2; text-decoration: none">기업·VIP 행사</a>
 <a href="academy.html" style="color: #DCE9E2; text-decoration: none">애플골프아카데미</a>
 <a href="contact.html" style="color: #DCE9E2; text-decoration: none">문의·오시는 길</a>
+<a href="privacy.html" style="color: #FFFFFF; text-decoration: none; font-weight: 700">개인정보처리방침</a>
 </nav>
 </div>
 <p style="max-width: 1320px; margin: 40px auto 0; font-size: 12px; color: #A9BFB4">© Communication Apple. All rights reserved.</p>
@@ -222,20 +226,13 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <script>(function(){function f(v){var d=v.replace(/\D/g,'').slice(0,11);if(d.indexOf('02')===0){d=d.slice(0,10);if(d.length<3)return d;if(d.length<6)return d.slice(0,2)+'-'+d.slice(2);if(d.length<10)return d.slice(0,2)+'-'+d.slice(2,5)+'-'+d.slice(5);return d.slice(0,2)+'-'+d.slice(2,6)+'-'+d.slice(6)}
 if(d.length<4)return d;if(d.length<8)return d.slice(0,3)+'-'+d.slice(3);if(d.length<11)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)}
 document.querySelectorAll('input[type=tel]').forEach(function(el){el.setAttribute('inputmode','numeric');el.setAttribute('maxlength','13');el.addEventListener('input',function(){var p=el.selectionStart,before=el.value.length;el.value=f(el.value);var a=el.value.length-before;try{el.setSelectionRange(p+a,p+a)}catch(e){}})});})();</script>
+<script src="js/config.js"></script>
+<script src="js/sb.js"></script>
+<script src="js/academy-data.js"></script>
 <script>(function(){
 var URL_='https://script.google.com/macros/s/AKfycbzhxdmpaMAjDgBlKLcWKRUhzRguJeHrj44hPz4J7pTjutgs4Lx3ZFxxPX8HWqaTiKO3/exec';
 var DOW=['일','월','화','수','목','금','토'];
-var P={
- k:{name:'2027 동계 애플골프아카데미 IN 칸차나부리',single:30000,note:'각 차수 선착순 12명 · 차수별 신청 마감일까지 접수',
-  s:[[1,'2026-12-17','2026-12-21',3,1000000,'한지훈','2026-12-11'],[2,'2026-12-20','2026-12-25',4,1150000,'한지훈','2026-12-11'],[3,'2026-12-24','2026-12-28',3,1000000,'한지훈','2026-12-18'],[4,'2026-12-27','2027-01-01',4,1150000,'한지훈','2026-12-18'],
-     [5,'2027-01-31','2027-02-05',4,1150000,'박서연','2026-12-24'],[6,'2027-02-04','2027-02-08',3,1000000,'박서연','2026-12-24'],[7,'2027-02-07','2027-02-12',4,1150000,'박서연','2026-12-31'],[8,'2027-02-11','2027-02-15',3,1000000,'박서연','2026-12-24'],
-     [9,'2027-02-14','2027-02-19',4,1150000,'장원주','2026-12-31'],[10,'2027-02-18','2027-02-22',3,1000000,'장원주','2026-12-24'],[11,'2027-02-21','2027-02-26',4,1150000,'장원주','2026-12-24'],[12,'2027-02-25','2027-03-01',3,1000000,'장원주','2026-12-24']]},
- a:{name:'2027 동계 프레스티지 애플골프아카데미 IN 아마타',single:60000,note:'차수별 최대 16명',
-  s:[[1,'2027-01-05','2027-01-09',3,2200000,'한지훈·박교희'],[2,'2027-01-08','2027-01-12',3,2550000,'한지훈·박교희'],[3,'2027-01-12','2027-01-16',3,2200000,'한지훈·박교희'],[4,'2027-01-15','2027-01-19',3,2550000,'한지훈·박교희'],
-     [5,'2027-01-19','2027-01-23',3,2200000,'박서연·허다빈'],[6,'2027-01-22','2027-01-26',3,2550000,'박서연·허다빈'],[7,'2027-01-26','2027-01-30',3,2200000,'박서연·허다빈'],
-     [8,'2027-01-29','2027-02-02',3,2550000,'장원주·김주미'],[9,'2027-02-02','2027-02-06',3,2200000,'장원주·김주미'],[10,'2027-02-05','2027-02-09',3,2550000,'장원주·김주미','설 연휴'],[11,'2027-02-09','2027-02-13',3,2550000,'장원주·김주미','설 연휴'],
-     [12,'2027-02-12','2027-02-16',3,2550000,'김송연·김주미'],[13,'2027-02-16','2027-02-20',3,2200000,'김송연·김주미'],[14,'2027-02-19','2027-02-23',3,2550000,'김송연·배경은'],[15,'2027-02-23','2027-02-27',3,2200000,'김송연·배경은'],[16,'2027-02-26','2027-03-02',3,2550000,'김송연·배경은']]}
-};
+var P=window.ACADEMY;
 var f=document.getElementById('apf'),$=function(id){return document.getElementById(id)};
 var pro=$('ap-pro'),proHint=$('ap-pro-hint'),ph1=$('ap-phone'),ph2=$('ap-phone2'),phHint=$('ap-phone-hint');
 var sess=$('ap-sess'),n=$('ap-n'),single=$('ap-single'),sum=$('ap-sum'),err=$('ap-err'),hint=$('ap-sess-hint');
@@ -283,10 +280,21 @@ f.addEventListener('submit',function(e){e.preventDefault();var m=check();
  err.hidden=true;var r=calc(),btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='보내는 중…';
  var x=r.x,detail=['[아카데미 신청]','상품: '+x.p.name,'차수: '+x.no+'차 · '+fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일) · '+pro.value+' 프로 (차수 담당: '+x.pro+')','인원: '+r.cnt+'명 / 1인실 '+r.sg+'명','동반자: '+($('ap-mates').value.trim()||'-'),'예상 금액: '+r.total,r.lines.join(' / '),'요청사항: '+($('ap-msg').value.trim()||'-')].join('\n');
  var d=new URLSearchParams({kind:'academy',place:(prod()==='k'?'칸차나부리':'아마타'),product:x.p.name,session:x.no+'차',period:fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일)',pro:pro.value,people:r.cnt+'명',single:r.sg?r.sg+'명':'사용 안 함',mates:$('ap-mates').value.trim(),total:r.total,breakdown:r.lines.join(' / '),request:$('ap-msg').value.trim(),name:$('ap-name').value.trim(),phone:$('ap-phone').value.trim(),email:'',company:'',type:'아카데미 신청 - '+(prod()==='k'?'칸차나부리':'아마타'),size:r.cnt+'명 (1인실 '+r.sg+'명)',date:x.no+'차 '+fmt(x.s)+' 출발 · '+x.nights+'박'+x.days+'일',msg:detail,website:$('ap-web').value});
- fetch(URL_,{method:'POST',mode:'no-cors',body:d}).then(function(){f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})
+ var tot=(r.x.price*r.cnt)+(x.p.single*x.nights*r.sg);
+ var row={place:(prod()==='k'?'칸차나부리':'아마타'),product:x.p.name,session_no:x.no,period:fmt(x.s)+' ~ '+fmt(x.e)+' ('+x.nights+'박'+x.days+'일)',pro:pro.value,people:r.cnt,single_rooms:r.sg,mates:$('ap-mates').value.trim()||null,total_won:tot,breakdown:r.lines.join(' / '),request:$('ap-msg').value.trim()||null,name:$('ap-name').value.trim(),phone:$('ap-phone').value.trim()};
+ var bot=!!$('ap-web').value;
+ var dbp=(CA.on&&CA.sb&&!bot)?CA.sb.from('academy_applications').insert(row).then(function(res){if(res.error)throw res.error;return 1}):Promise.reject('off');
+ var gp=fetch(URL_,{method:'POST',mode:'no-cors',body:d});
+ Promise.allSettled([dbp,gp]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;
+  $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})
  .catch(function(){err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';err.hidden=false;btn.disabled=false;btn.textContent='신청서 보내기'})});
 $('ap-again').addEventListener('click',function(){f.reset();f.hidden=false;$('ap-done').hidden=true;var b=f.querySelector('button[type=submit]');b.disabled=false;b.textContent='신청서 보내기';fillSess();fillPro();fillN();phoneMatch()});
 fillSess();fillPro();fillN();
+CA.ready.then(function(u){var h=$('ap-mem');if(!CA.on||!h)return;
+ if(u){var p=CA.profile||{};if(p.name&&!$('ap-name').value)$('ap-name').value=p.name;if(p.phone&&!ph1.value){ph1.value=p.phone;ph2.value=p.phone;phoneMatch()}
+  h.innerHTML='<b>'+(p.name||'회원')+'</b>님 정보로 이름과 번호를 채웠습니다. 신청 내역은 <a href="mypage.html">마이페이지</a>에서 확인할 수 있습니다.'}
+ else h.innerHTML='<a href="login.html?next=academy.html%23apply">로그인</a>하면 이름·번호가 자동으로 입력되고, 마이페이지에서 신청 상태를 확인할 수 있습니다. 비회원으로도 신청할 수 있습니다.';
+ h.hidden=false});
 })();</script>
 <script>(function(){var G={"k": {"t": "2027 애플 동계 아카데미 IN 칸차나부리", "i": ["img/5e17e5693586.jpg", "img/f5900bd5f280.jpg", "img/36543fcf7411.jpg", "img/2b58b18a2534.jpg", "img/353872baaba5.jpg"]}, "a": {"t": "2027 애플 동계 프레스티지 골프 아카데미 IN 아마타", "i": ["img/94ce0a6a0fa2.jpg", "img/c4b40ee77166.jpg", "img/cc10d732bec0.jpg", "img/91d28e653057.jpg", "img/de4bc0584104.jpg", "img/0522c0ee42e0.jpg", "img/7a8422fc716f.jpg", "img/180222081a62.jpg", "img/a9a962d8c9a2.jpg", "img/15b43a8274fc.jpg", "img/ba5511ea83cf.jpg"]}},lb=document.getElementById('lb'),im=document.getElementById('lbi'),tt=document.getElementById('lbt'),g=null,i=0,opener=null;
 function show(){var n=G[g].i.length;im.src=G[g].i[i];im.alt=G[g].t+' 상세 안내 '+(i+1);tt.textContent=G[g].t+' · '+(i+1)+' / '+n;}

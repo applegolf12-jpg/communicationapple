@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로그인·회원가입 | 커뮤니케이션 애플</title>
+<meta name="description" content="애플골프아카데미 회원 로그인과 회원가입.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="로그인·회원가입 | 커뮤니케이션 애플">
+<meta property="og:description" content="애플골프아카데미 회원 로그인과 회원가입.">
+<meta property="og:image" content="https://communicationapple.com/img/06eef273b8d1.jpg">
+<meta property="og:url" content="https://communicationapple.com/login.html">
+<meta property="og:site_name" content="커뮤니케이션 애플">
+<meta property="og:locale" content="ko_KR">
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/38b7d85e32bc.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&amp;family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>html{scroll-behavior:smooth}*{box-sizing:border-box}body{margin:0;background:#fff;font-family:'Noto Sans KR',sans-serif;color:#141A17}
+img,video{max-width:100%}[hidden]{display:none!important}
+a{color:#1F4D3F}a:hover{color:#0E2A21}
+a:focus-visible,button:focus-visible{outline:2px solid #1F4D3F;outline-offset:2px}
+.hd{max-width:1320px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#141A17}
+.brand span{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em}
+#gnb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;font-size:15px;font-weight:500}
+.nv{color:#141A17;text-decoration:none;padding:10px 0}
+.nv.on{color:#1F4D3F;font-weight:700;text-decoration:underline;text-underline-offset:6px}
+.nv.cta{color:#fff;background:#1F4D3F;padding:11px 20px;border-radius:999px}
+.nv.cta[aria-current]{background:#0E2A21}
+.mbtn{display:none;width:44px;height:44px;border:none;background:none;color:#141A17;cursor:pointer;align-items:center;justify-content:center}
+@media (max-width:900px){
+ .mbtn{display:flex}
+ #gnb{display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:8px 24px 20px;border-bottom:1px solid #D5DAD6;box-shadow:0 12px 24px rgba(0,0,0,.06)}
+ #gnb.open{display:flex}
+ .nv{padding:14px 0;border-bottom:1px solid #EEF1EE}
+ .nv.cta{margin-top:12px;text-align:center;border:none}
+ .brand span{font-size:15px}
+}
+.card img{transition:transform .5s ease}.card:hover img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.mq,.lgt,.pst,.rvt{animation:none!important}}
+input,select,textarea{font-family:inherit;font-size:16px;color:#141A17;border:1.5px solid #B9C2BD;border-radius:10px;padding:12px 14px;background:#fff;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid #1F4D3F;outline-offset:1px;border-color:#1F4D3F}
+label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap:8px}
+.au{max-width:520px;margin:0 auto;padding:56px 24px 96px;display:flex;flex-direction:column;gap:24px}
+.au h1{margin:0;font-size:clamp(28px,4vw,36px);font-weight:900}
+.au .box{background:#fff;border:1px solid #D5DAD6;border-radius:24px;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:18px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1.5px solid #D5DAD6}
+.tabs button{min-height:48px;border:none;background:none;font-family:inherit;font-size:16px;font-weight:700;color:#5A645F;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.tabs button[aria-selected=true]{color:#141A17;border-bottom-color:#1F4D3F}
+.btn{min-height:52px;border:none;border-radius:10px;background:#1F4D3F;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;padding:0 22px}
+.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:#fff;color:#141A17;border:1.5px solid #B9C2BD}
+.btn.danger{background:#fff;color:#B3261E;border:1.5px solid #E3B4B0}
+.lnk{background:none;border:none;padding:0;font-family:inherit;font-size:14px;color:#1F4D3F;text-decoration:underline;cursor:pointer}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.6}
+.chk input{width:20px;height:20px;padding:0;flex:none;margin-top:1px}
+.chk label{font-weight:500}
+.agr{border:1px solid #D5DAD6;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.agr details{font-size:13px;color:#3E4843;line-height:1.7;padding-left:30px}
+.agr summary{cursor:pointer;color:#5A645F}
+.msg{margin:0;font-size:14px;font-weight:700;line-height:1.6}
+.msg.e{color:#B3261E}.msg.o{color:#1F6B45}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{padding:12px 8px;border-bottom:1px solid #E3E8E4;text-align:left;vertical-align:top}
+.tbl th{font-size:13px;color:#5A645F;font-weight:700}
+.st{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#EEF1EE;color:#3E4843;white-space:nowrap}
+.st[data-s=결제안내]{background:#FFF4D6;color:#7A5300}.st[data-s=입금확인]{background:#E2EEFF;color:#1C4E9A}
+.st[data-s=예약확정]{background:#DDF1E5;color:#1F6B45}.st[data-s=취소]{background:#F6E1DF;color:#9A2B22}
+</style>
+</head>
+<body>
+<header class="hd">
+<a href="index.html" class="brand"><img src="img/38b7d85e32bc.png" alt="" width="44" height="44" style="border-radius: 50%"><span>COMMUNICATION APPLE</span></a>
+<button type="button" class="mbtn" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<nav id="gnb" aria-label="주 메뉴"><a href="index.html#about" class="nv">회사소개</a><a href="proam.html" class="nv">이벤트 프로암</a><a href="corporate.html" class="nv">기업·VIP 행사</a><a href="academy.html" class="nv">애플골프아카데미</a><a href="login.html" data-auth-link hidden aria-current="page" class="nv">로그인</a><a href="contact.html" class="nv cta">행사 문의</a></nav>
+</header>
+<main>
+<section class="au">
+<h1>로그인</h1>
+<div class="box">
+<div class="tabs" role="tablist">
+<button type="button" role="tab" id="t-in" aria-selected="true" aria-controls="p-in">로그인</button>
+<button type="button" role="tab" id="t-up" aria-selected="false" aria-controls="p-up">회원가입</button>
+</div>
+<div id="off" hidden class="msg e">지금은 로그인 기능을 준비 중입니다. 아카데미 신청과 행사 문의는 로그인 없이 이용하실 수 있습니다.</div>
+
+<form id="p-in" role="tabpanel" aria-labelledby="t-in" novalidate style="display: flex; flex-direction: column; gap: 16px">
+<div class="fld"><label for="in-email">이메일</label><input id="in-email" type="email" autocomplete="email" required></div>
+<div class="fld"><label for="in-pw">비밀번호</label><input id="in-pw" type="password" autocomplete="current-password" required></div>
+<p id="in-msg" class="msg e" role="alert" hidden></p>
+<button type="submit" class="btn">로그인</button>
+<button type="button" class="lnk" id="go-reset" style="align-self: center">비밀번호를 잊으셨나요?</button>
+</form>
+
+<form id="p-reset" hidden novalidate style="display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3E4843">가입한 이메일을 입력하시면 비밀번호 재설정 링크를 보내드립니다.</p>
+<div class="fld"><label for="rs-email">이메일</label><input id="rs-email" type="email" autocomplete="email"></div>
+<p id="rs-msg" class="msg" role="alert" hidden></p>
+<button type="submit" class="btn">재설정 메일 받기</button>
+<button type="button" class="lnk" id="back-in" style="align-self: center">로그인으로 돌아가기</button>
+</form>
+
+<form id="p-up" role="tabpanel" aria-labelledby="t-up" hidden novalidate style="display: flex; flex-direction: column; gap: 16px">
+<div class="fld"><label for="up-name">이름 *</label><input id="up-name" type="text" autocomplete="name"></div>
+<div class="fld"><label for="up-email">이메일 *</label><input id="up-email" type="email" autocomplete="email"></div>
+<div class="fld"><label for="up-pw">비밀번호 *</label><input id="up-pw" type="password" autocomplete="new-password" aria-describedby="up-pw-h"><small id="up-pw-h" class="hint" style="font-size: 12px; color: #5A645F">8자 이상, 영문과 숫자를 함께 넣어 주세요.</small></div>
+<div class="fld"><label for="up-pw2">비밀번호 확인 *</label><input id="up-pw2" type="password" autocomplete="new-password"></div>
+<div class="fld"><label for="up-phone">휴대폰 번호 *</label><input id="up-phone" type="tel" autocomplete="tel" placeholder="010-0000-0000"></div>
+<div class="agr">
+<div class="chk"><input type="checkbox" id="up-all"><label for="up-all"><b>전체 동의</b></label></div>
+<div class="chk"><input type="checkbox" id="up-age" class="ag"><label for="up-age">(필수) 만 14세 이상입니다</label></div>
+<div class="chk"><input type="checkbox" id="up-pi" class="ag"><label for="up-pi">(필수) 개인정보 수집·이용에 동의합니다</label></div>
+<details><summary>내용 보기</summary>수집 항목: 이름, 이메일, 비밀번호(암호화 저장), 휴대폰 번호<br>이용 목적: 회원 식별, 아카데미 신청 정보 자동 입력, 신청 내역 조회, 예약·결제 안내 연락<br>보유 기간: 회원 탈퇴 시까지. 단, 관계 법령에 따라 보존이 필요한 거래 기록은 해당 기간 동안 보관합니다.<br>동의를 거부할 수 있으며, 거부 시 회원가입은 할 수 없지만 비회원으로 신청·문의는 가능합니다. <a href="privacy.html" target="_blank">개인정보처리방침</a></details>
+<div class="chk"><input type="checkbox" id="up-mk" class="ag"><label for="up-mk">(선택) 아카데미 모집·이벤트 안내 문자 수신에 동의합니다</label></div>
+<details><summary>내용 보기</summary>새 시즌 아카데미 모집, 할인·이벤트 소식을 휴대폰 문자로 보내드립니다. 동의하지 않아도 가입할 수 있으며, 마이페이지에서 언제든 철회할 수 있습니다.</details>
+</div>
+<p id="up-msg" class="msg e" role="alert" hidden></p>
+<button type="submit" class="btn">가입하기</button>
+</form>
+
+<div id="up-done" hidden tabindex="-1" style="display: flex; flex-direction: column; gap: 14px; text-align: center; outline: none">
+<h2 style="margin: 0; font-size: 22px; font-weight: 900">인증 메일을 보냈습니다</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.7; color: #3E4843; word-break: keep-all"><b id="up-done-email"></b> 으로 보낸 메일의 링크를 누르면 가입이 완료됩니다. 메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.7; color: #5A645F; text-align: center">회원이 되시면 다음 신청부터 정보가 자동으로 입력되고, 마이페이지에서 신청 내역을 확인할 수 있습니다.</p>
+</section>
+
+</main>
+<footer style="background: #0E2A21; color: #DCE9E2; padding: 56px 24px">
+<div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #FFFFFF; letter-spacing: 0.02em">COMMUNICATION APPLE</span>
+<span style="font-size: 14px; line-height: 1.8">경기도 성남시 분당구 성남대로 51, 115<br>Tel 031-625-9017, 9018 · Fax 031-625-9010<br>applegolf12@gmail.com</span>
+</div>
+<nav aria-label="하단 메뉴" style="display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px; align-items: flex-start">
+<a href="proam.html" style="color: #DCE9E2; text-decoration: none">이벤트 프로암</a>
+<a href="corporate.html" style="color: #DCE9E2; text-decoration: none">기업·VIP 행사</a>
+<a href="academy.html" style="color: #DCE9E2; text-decoration: none">애플골프아카데미</a>
+<a href="contact.html" style="color: #DCE9E2; text-decoration: none">문의·오시는 길</a>
+<a href="privacy.html" style="color: #FFFFFF; text-decoration: none; font-weight: 700">개인정보처리방침</a>
+</nav>
+</div>
+<p style="max-width: 1320px; margin: 40px auto 0; font-size: 12px; color: #A9BFB4">© Communication Apple. All rights reserved.</p>
+</footer>
+<script>(function(){var b=document.querySelector('.mbtn'),n=document.getElementById('gnb');b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'메뉴 닫기':'메뉴 열기');});})();</script>
+<script>(function(){function f(v){var d=v.replace(/\D/g,'').slice(0,11);if(d.indexOf('02')===0){d=d.slice(0,10);if(d.length<3)return d;if(d.length<6)return d.slice(0,2)+'-'+d.slice(2);if(d.length<10)return d.slice(0,2)+'-'+d.slice(2,5)+'-'+d.slice(5);return d.slice(0,2)+'-'+d.slice(2,6)+'-'+d.slice(6)}
+if(d.length<4)return d;if(d.length<8)return d.slice(0,3)+'-'+d.slice(3);if(d.length<11)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)}
+document.querySelectorAll('input[type=tel]').forEach(function(el){el.setAttribute('inputmode','numeric');el.setAttribute('maxlength','13');el.addEventListener('input',function(){var p=el.selectionStart,before=el.value.length;el.value=f(el.value);var a=el.value.length-before;try{el.setSelectionRange(p+a,p+a)}catch(e){}})});})();</script>
+<script src="js/config.js"></script>
+<script src="js/sb.js"></script>
+<script>(function(){
+var $=function(i){return document.getElementById(i)},q=new URLSearchParams(location.search),next=q.get('next')||'mypage.html';
+if(!/^[a-z]+\.html(#[\w-]+)?$/.test(next))next='mypage.html';
+function tab(up){$('t-in').setAttribute('aria-selected',!up);$('t-up').setAttribute('aria-selected',up);$('p-in').hidden=up;$('p-up').hidden=!up;$('p-reset').hidden=true;$('up-done').hidden=true}
+$('t-in').onclick=function(){tab(false)};$('t-up').onclick=function(){tab(true)};
+if(q.get('tab')==='signup')tab(true);
+$('go-reset').onclick=function(){$('p-in').hidden=true;$('p-reset').hidden=false;$('rs-email').value=$('in-email').value;$('rs-email').focus()};
+$('back-in').onclick=function(){tab(false)};
+function say(id,t,ok){var e=$(id);e.textContent=t;e.className='msg '+(ok?'o':'e');e.hidden=!t}
+function busy(f,b){var x=f.querySelector('button[type=submit]');x.disabled=b}
+var ags=[].slice.call(document.querySelectorAll('.ag'));
+$('up-all').onchange=function(){ags.forEach(function(a){a.checked=$('up-all').checked})};
+ags.forEach(function(a){a.onchange=function(){$('up-all').checked=ags.every(function(x){return x.checked})}});
+CA.ready.then(function(u){
+ if(!CA.on){$('off').hidden=false;['p-in','p-up'].forEach(function(i){$(i).querySelectorAll('input,button').forEach(function(x){x.disabled=true})});return}
+ if(u){location.replace(next);return}
+});
+$('p-in').addEventListener('submit',function(e){e.preventDefault();var em=$('in-email').value.trim(),pw=$('in-pw').value;
+ if(!em||!pw)return say('in-msg','이메일과 비밀번호를 입력해 주세요.');
+ busy(this,true);var f=this;CA.sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){busy(f,false);if(r.error)return say('in-msg',CA.err(r.error));location.replace(next)})});
+$('p-reset').addEventListener('submit',function(e){e.preventDefault();var em=$('rs-email').value.trim();if(!/^\S+@\S+\.\S+$/.test(em))return say('rs-msg','이메일을 정확히 입력해 주세요.');
+ busy(this,true);var f=this;CA.sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/mypage.html?reset=1'}).then(function(r){busy(f,false);
+ if(r.error)return say('rs-msg',CA.err(r.error));say('rs-msg','가입된 이메일이라면 재설정 링크가 발송됩니다. 메일함을 확인해 주세요.',true)})});
+$('p-up').addEventListener('submit',function(e){e.preventDefault();
+ var nm=$('up-name').value.trim(),em=$('up-email').value.trim(),pw=$('up-pw').value,pw2=$('up-pw2').value,ph=$('up-phone').value.trim(),m='';
+ if(!nm)m='이름을 입력해 주세요.';else if(!/^\S+@\S+\.\S+$/.test(em))m='이메일을 정확히 입력해 주세요.';
+ else if(pw.length<8||!/[A-Za-z]/.test(pw)||!/\d/.test(pw))m='비밀번호는 8자 이상, 영문과 숫자를 함께 넣어 주세요.';
+ else if(pw!==pw2)m='비밀번호 확인이 일치하지 않습니다.';
+ else if(!/^01[016789]-\d{3,4}-\d{4}$/.test(ph))m='휴대폰 번호를 정확히 입력해 주세요. (예: 010-1234-5678)';
+ else if(!$('up-age').checked||!$('up-pi').checked)m='필수 항목에 동의해 주세요.';
+ if(m)return say('up-msg',m);say('up-msg','');busy(this,true);var f=this;
+ CA.sb.auth.signUp({email:em,password:pw,options:{data:{name:nm,phone:ph,marketing_sms:$('up-mk').checked},emailRedirectTo:location.origin+'/mypage.html'}}).then(function(r){busy(f,false);
+  if(r.error)return say('up-msg',CA.err(r.error));
+  if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0)return say('up-msg','이미 가입된 이메일입니다. 로그인하거나 비밀번호 찾기를 이용해 주세요.');
+  if(r.data.session){location.replace(next);return}
+  f.hidden=true;$('up-done-email').textContent=em;$('up-done').hidden=false;$('up-done').focus()})});
+})();</script>
+
+</body>
+</html>

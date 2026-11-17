@@ -200,3 +200,23 @@ function setup() {
   MailApp.getRemainingDailyQuota();
   Logger.log('아카데미 신청 시트: ' + ss.getUrl());
 }
+
+// ───────── Supabase 일시정지 방지 ─────────
+// 스크립트 속성에 SUPABASE_URL(https://xxxx.supabase.co), SUPABASE_KEY(publishable 키)를 넣고
+// installKeepAlive 를 한 번 실행하면 매일 새벽 한 번 DB를 호출합니다.
+function keepSupabaseAwake() {
+  const p = PropertiesService.getScriptProperties();
+  const url = p.getProperty('SUPABASE_URL'), key = p.getProperty('SUPABASE_KEY');
+  if (!url || !key) return;
+  const res = UrlFetchApp.fetch(url.replace(/\/$/, '') + '/rest/v1/rpc/ping', {
+    method: 'post', contentType: 'application/json', payload: '{}', muteHttpExceptions: true,
+    headers: { apikey: key, Authorization: 'Bearer ' + key }
+  });
+  Logger.log('Supabase ping: ' + res.getResponseCode() + ' ' + res.getContentText());
+}
+function installKeepAlive() {
+  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'keepSupabaseAwake')
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('keepSupabaseAwake').timeBased().everyDays(1).atHour(4).create();
+  keepSupabaseAwake();
+}
