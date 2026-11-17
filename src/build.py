@@ -113,7 +113,12 @@ def page(out, title, desc, cur, body, css='', js=''):
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="https://communicationapple.com/img/06eef273b8d1.jpg">
+<meta property="og:image" content="https://communicationapple.com/og-logo.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="커뮤니케이션 애플 로고">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://communicationapple.com/og-logo.jpg">
 <meta property="og:url" content="{SITE}{path}">
 <meta property="og:site_name" content="커뮤니케이션 애플">
 <meta property="og:locale" content="ko_KR">
@@ -270,6 +275,7 @@ page('privacy.html', '개인정보처리방침 | 커뮤니케이션 애플', '�
 page('404.html', '페이지를 찾을 수 없습니다 | 커뮤니케이션 애플', '요청하신 페이지를 찾을 수 없습니다.', '', '''<section style="max-width: 760px; margin: 0 auto; padding: 120px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px"><h1 style="margin: 0; font-size: 40px; font-weight: 900">페이지를 찾을 수 없습니다</h1><p style="margin: 0; color: #3E4843">주소가 바뀌었거나 삭제된 페이지입니다.</p><a href="index.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 10px; background: #1F4D3F; color: #FFFFFF; text-decoration: none; font-weight: 700">홈으로</a></section>''')
 
 # ---------- assets ----------
+shutil.copy(SRC + 'og-logo.jpg', OUT + 'og-logo.jpg')
 shutil.rmtree(OUT + 'js', ignore_errors=True); shutil.copytree(SRC + 'js', OUT + 'js')
 shutil.rmtree(OUT + 'admin', ignore_errors=True); shutil.copytree(SRC + 'admin', OUT + 'admin')
 _ad = open(OUT + 'admin/index.html').read().replace('../js/config.js', '../js/config.js?v=' + JSV).replace('../js/academy-data.js', '../js/academy-data.js?v=' + JSV)
