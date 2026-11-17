@@ -1,0 +1,50 @@
+<section class="au">
+<h1>로그인</h1>
+<div class="box">
+<div class="tabs" role="tablist">
+<button type="button" role="tab" id="t-in" aria-selected="true" aria-controls="p-in">로그인</button>
+<button type="button" role="tab" id="t-up" aria-selected="false" aria-controls="p-up">회원가입</button>
+</div>
+<div id="off" hidden class="msg e">지금은 로그인 기능을 준비 중입니다. 아카데미 신청과 행사 문의는 로그인 없이 이용하실 수 있습니다.</div>
+
+<form id="p-in" role="tabpanel" aria-labelledby="t-in" novalidate style="display: flex; flex-direction: column; gap: 16px">
+<div class="fld"><label for="in-email">이메일</label><input id="in-email" type="email" autocomplete="email" required></div>
+<div class="fld"><label for="in-pw">비밀번호</label><input id="in-pw" type="password" autocomplete="current-password" required></div>
+<p id="in-msg" class="msg e" role="alert" hidden></p>
+<button type="submit" class="btn">로그인</button>
+<button type="button" class="lnk" id="go-reset" style="align-self: center">비밀번호를 잊으셨나요?</button>
+</form>
+
+<form id="p-reset" hidden novalidate style="display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3E4843">가입한 이메일을 입력하시면 비밀번호 재설정 링크를 보내드립니다.</p>
+<div class="fld"><label for="rs-email">이메일</label><input id="rs-email" type="email" autocomplete="email"></div>
+<p id="rs-msg" class="msg" role="alert" hidden></p>
+<button type="submit" class="btn">재설정 메일 받기</button>
+<button type="button" class="lnk" id="back-in" style="align-self: center">로그인으로 돌아가기</button>
+</form>
+
+<form id="p-up" role="tabpanel" aria-labelledby="t-up" hidden novalidate style="display: flex; flex-direction: column; gap: 16px">
+<div class="fld"><label for="up-name">이름 *</label><input id="up-name" type="text" autocomplete="name"></div>
+<div class="fld"><label for="up-email">이메일 *</label><input id="up-email" type="email" autocomplete="email"></div>
+<div class="fld"><label for="up-pw">비밀번호 *</label><input id="up-pw" type="password" autocomplete="new-password" aria-describedby="up-pw-h"><small id="up-pw-h" class="hint" style="font-size: 12px; color: #5A645F">8자 이상, 영문과 숫자를 함께 넣어 주세요.</small></div>
+<div class="fld"><label for="up-pw2">비밀번호 확인 *</label><input id="up-pw2" type="password" autocomplete="new-password"></div>
+<div class="fld"><label for="up-phone">휴대폰 번호 *</label><input id="up-phone" type="tel" autocomplete="tel" placeholder="010-0000-0000"></div>
+<div class="agr">
+<div class="chk"><input type="checkbox" id="up-all"><label for="up-all"><b>전체 동의</b></label></div>
+<div class="chk"><input type="checkbox" id="up-age" class="ag"><label for="up-age">(필수) 만 14세 이상입니다</label></div>
+<div class="chk"><input type="checkbox" id="up-pi" class="ag"><label for="up-pi">(필수) 개인정보 수집·이용에 동의합니다</label></div>
+<details><summary>내용 보기</summary>수집 항목: 이름, 이메일, 비밀번호(암호화 저장), 휴대폰 번호<br>이용 목적: 회원 식별, 아카데미 신청 정보 자동 입력, 신청 내역 조회, 예약·결제 안내 연락<br>보유 기간: 회원 탈퇴 시까지. 단, 관계 법령에 따라 보존이 필요한 거래 기록은 해당 기간 동안 보관합니다.<br>동의를 거부할 수 있으며, 거부 시 회원가입은 할 수 없지만 비회원으로 신청·문의는 가능합니다. <a href="privacy.html" target="_blank">개인정보처리방침</a></details>
+<div class="chk"><input type="checkbox" id="up-mk" class="ag"><label for="up-mk">(선택) 아카데미 모집·이벤트 안내 문자 수신에 동의합니다</label></div>
+<details><summary>내용 보기</summary>새 시즌 아카데미 모집, 할인·이벤트 소식을 휴대폰 문자로 보내드립니다. 동의하지 않아도 가입할 수 있으며, 마이페이지에서 언제든 철회할 수 있습니다.</details>
+</div>
+<p id="up-msg" class="msg e" role="alert" hidden></p>
+<button type="submit" class="btn">가입하기</button>
+</form>
+
+<div id="up-done" hidden tabindex="-1" style="display: flex; flex-direction: column; gap: 14px; text-align: center; outline: none">
+<h2 style="margin: 0; font-size: 22px; font-weight: 900">인증 메일을 보냈습니다</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.7; color: #3E4843; word-break: keep-all"><b id="up-done-email"></b> 으로 보낸 메일의 링크를 누르면 가입이 완료됩니다. 메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.7; color: #5A645F; text-align: center">회원이 되시면 다음 신청부터 정보가 자동으로 입력되고, 마이페이지에서 신청 내역을 확인할 수 있습니다.</p>
+</section>

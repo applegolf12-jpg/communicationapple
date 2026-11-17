@@ -1,0 +1,25 @@
+.au{max-width:520px;margin:0 auto;padding:56px 24px 96px;display:flex;flex-direction:column;gap:24px}
+.au h1{margin:0;font-size:clamp(28px,4vw,36px);font-weight:900}
+.au .box{background:#fff;border:1px solid #D5DAD6;border-radius:24px;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:18px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1.5px solid #D5DAD6}
+.tabs button{min-height:48px;border:none;background:none;font-family:inherit;font-size:16px;font-weight:700;color:#5A645F;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.tabs button[aria-selected=true]{color:#141A17;border-bottom-color:#1F4D3F}
+.btn{min-height:52px;border:none;border-radius:10px;background:#1F4D3F;color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;padding:0 22px}
+.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:#fff;color:#141A17;border:1.5px solid #B9C2BD}
+.btn.danger{background:#fff;color:#B3261E;border:1.5px solid #E3B4B0}
+.lnk{background:none;border:none;padding:0;font-family:inherit;font-size:14px;color:#1F4D3F;text-decoration:underline;cursor:pointer}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.6}
+.chk input{width:20px;height:20px;padding:0;flex:none;margin-top:1px}
+.chk label{font-weight:500}
+.agr{border:1px solid #D5DAD6;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.agr details{font-size:13px;color:#3E4843;line-height:1.7;padding-left:30px}
+.agr summary{cursor:pointer;color:#5A645F}
+.msg{margin:0;font-size:14px;font-weight:700;line-height:1.6}
+.msg.e{color:#B3261E}.msg.o{color:#1F6B45}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{padding:12px 8px;border-bottom:1px solid #E3E8E4;text-align:left;vertical-align:top}
+.tbl th{font-size:13px;color:#5A645F;font-weight:700}
+.st{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#EEF1EE;color:#3E4843;white-space:nowrap}
+.st[data-s=결제안내]{background:#FFF4D6;color:#7A5300}.st[data-s=입금확인]{background:#E2EEFF;color:#1C4E9A}
+.st[data-s=예약확정]{background:#DDF1E5;color:#1F6B45}.st[data-s=취소]{background:#F6E1DF;color:#9A2B22}

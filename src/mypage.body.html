@@ -1,0 +1,58 @@
+<section class="au" style="max-width: 880px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<h1>마이페이지</h1>
+<button type="button" id="logout" class="btn ghost" style="min-height: 44px; font-size: 14px" hidden>로그아웃</button>
+</div>
+<p id="mp-off" class="msg e" hidden></p>
+
+<div id="mp" hidden style="display: flex; flex-direction: column; gap: 24px">
+<div class="box" id="rs-box" hidden>
+<h2 style="margin: 0; font-size: 20px; font-weight: 900">새 비밀번호 설정</h2>
+<form id="rs-f" novalidate style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div class="fld"><label for="rs-pw">새 비밀번호</label><input id="rs-pw" type="password" autocomplete="new-password"></div>
+<div class="fld"><label for="rs-pw2">새 비밀번호 확인</label><input id="rs-pw2" type="password" autocomplete="new-password"></div>
+<p id="rs-msg" class="msg" role="alert" hidden style="grid-column: 1 / -1"></p>
+<button type="submit" class="btn" style="grid-column: 1 / -1">비밀번호 변경</button>
+</form>
+</div>
+
+<div class="box">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 900">아카데미 신청 내역</h2>
+<a href="academy.html#apply" style="font-size: 14px; font-weight: 700">새로 신청하기 →</a>
+</div>
+<div id="apps" aria-live="polite"><p style="margin: 0; color: #5A645F; font-size: 14px">불러오는 중…</p></div>
+<p style="margin: 0; font-size: 12px; line-height: 1.7; color: #5A645F">로그인한 상태에서 신청한 내역만 표시됩니다. 일정 변경·취소는 031-625-9017로 연락 주세요.</p>
+</div>
+
+<div class="box">
+<h2 style="margin: 0; font-size: 20px; font-weight: 900">내 정보</h2>
+<form id="pf" novalidate style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div class="fld"><label for="pf-email">이메일</label><input id="pf-email" type="email" disabled></div>
+<div class="fld"><label for="pf-name">이름</label><input id="pf-name" type="text" autocomplete="name"></div>
+<div class="fld"><label for="pf-phone">휴대폰 번호</label><input id="pf-phone" type="tel" autocomplete="tel"></div>
+<div class="chk" style="grid-column: 1 / -1"><input type="checkbox" id="pf-mk"><label for="pf-mk">아카데미 모집·이벤트 안내 문자 수신 동의 (선택)<br><small id="pf-mk-at" style="color: #5A645F"></small></label></div>
+<p id="pf-msg" class="msg" role="alert" hidden style="grid-column: 1 / -1"></p>
+<button type="submit" class="btn" style="grid-column: 1 / -1">저장</button>
+</form>
+</div>
+
+<div class="box">
+<h2 style="margin: 0; font-size: 20px; font-weight: 900">비밀번호 변경</h2>
+<form id="pw-f" novalidate style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div class="fld"><label for="pw-new">새 비밀번호</label><input id="pw-new" type="password" autocomplete="new-password"></div>
+<div class="fld"><label for="pw-new2">새 비밀번호 확인</label><input id="pw-new2" type="password" autocomplete="new-password"></div>
+<p id="pw-msg" class="msg" role="alert" hidden style="grid-column: 1 / -1"></p>
+<button type="submit" class="btn ghost" style="grid-column: 1 / -1">비밀번호 변경</button>
+</form>
+</div>
+
+<div class="box" style="border-color: #EBD3D0">
+<h2 style="margin: 0; font-size: 18px; font-weight: 900">회원 탈퇴</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3E4843">탈퇴하면 회원 정보가 즉시 삭제되며 되돌릴 수 없습니다. 이미 접수된 신청 내역은 예약·결제 처리와 관계 법령에 따른 보관을 위해 회원과 분리되어 보관됩니다.</p>
+<div class="chk"><input type="checkbox" id="del-ok"><label for="del-ok">위 내용을 확인했으며 탈퇴합니다</label></div>
+<p id="del-msg" class="msg e" role="alert" hidden></p>
+<button type="button" id="del" class="btn danger" style="align-self: flex-start">회원 탈퇴</button>
+</div>
+</div>
+</section>

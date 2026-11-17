@@ -1,0 +1,37 @@
+<script>(function(){
+var $=function(i){return document.getElementById(i)},q=new URLSearchParams(location.search),next=q.get('next')||'mypage.html';
+if(!/^[a-z]+\.html(#[\w-]+)?$/.test(next))next='mypage.html';
+function tab(up){$('t-in').setAttribute('aria-selected',!up);$('t-up').setAttribute('aria-selected',up);$('p-in').hidden=up;$('p-up').hidden=!up;$('p-reset').hidden=true;$('up-done').hidden=true}
+$('t-in').onclick=function(){tab(false)};$('t-up').onclick=function(){tab(true)};
+if(q.get('tab')==='signup')tab(true);
+$('go-reset').onclick=function(){$('p-in').hidden=true;$('p-reset').hidden=false;$('rs-email').value=$('in-email').value;$('rs-email').focus()};
+$('back-in').onclick=function(){tab(false)};
+function say(id,t,ok){var e=$(id);e.textContent=t;e.className='msg '+(ok?'o':'e');e.hidden=!t}
+function busy(f,b){var x=f.querySelector('button[type=submit]');x.disabled=b}
+var ags=[].slice.call(document.querySelectorAll('.ag'));
+$('up-all').onchange=function(){ags.forEach(function(a){a.checked=$('up-all').checked})};
+ags.forEach(function(a){a.onchange=function(){$('up-all').checked=ags.every(function(x){return x.checked})}});
+CA.ready.then(function(u){
+ if(!CA.on){$('off').hidden=false;['p-in','p-up'].forEach(function(i){$(i).querySelectorAll('input,button').forEach(function(x){x.disabled=true})});return}
+ if(u){location.replace(next);return}
+});
+$('p-in').addEventListener('submit',function(e){e.preventDefault();var em=$('in-email').value.trim(),pw=$('in-pw').value;
+ if(!em||!pw)return say('in-msg','이메일과 비밀번호를 입력해 주세요.');
+ busy(this,true);var f=this;CA.sb.auth.signInWithPassword({email:em,password:pw}).then(function(r){busy(f,false);if(r.error)return say('in-msg',CA.err(r.error));location.replace(next)})});
+$('p-reset').addEventListener('submit',function(e){e.preventDefault();var em=$('rs-email').value.trim();if(!/^\S+@\S+\.\S+$/.test(em))return say('rs-msg','이메일을 정확히 입력해 주세요.');
+ busy(this,true);var f=this;CA.sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/mypage.html?reset=1'}).then(function(r){busy(f,false);
+ if(r.error)return say('rs-msg',CA.err(r.error));say('rs-msg','가입된 이메일이라면 재설정 링크가 발송됩니다. 메일함을 확인해 주세요.',true)})});
+$('p-up').addEventListener('submit',function(e){e.preventDefault();
+ var nm=$('up-name').value.trim(),em=$('up-email').value.trim(),pw=$('up-pw').value,pw2=$('up-pw2').value,ph=$('up-phone').value.trim(),m='';
+ if(!nm)m='이름을 입력해 주세요.';else if(!/^\S+@\S+\.\S+$/.test(em))m='이메일을 정확히 입력해 주세요.';
+ else if(pw.length<8||!/[A-Za-z]/.test(pw)||!/\d/.test(pw))m='비밀번호는 8자 이상, 영문과 숫자를 함께 넣어 주세요.';
+ else if(pw!==pw2)m='비밀번호 확인이 일치하지 않습니다.';
+ else if(!/^01[016789]-\d{3,4}-\d{4}$/.test(ph))m='휴대폰 번호를 정확히 입력해 주세요. (예: 010-1234-5678)';
+ else if(!$('up-age').checked||!$('up-pi').checked)m='필수 항목에 동의해 주세요.';
+ if(m)return say('up-msg',m);say('up-msg','');busy(this,true);var f=this;
+ CA.sb.auth.signUp({email:em,password:pw,options:{data:{name:nm,phone:ph,marketing_sms:$('up-mk').checked},emailRedirectTo:location.origin+'/mypage.html'}}).then(function(r){busy(f,false);
+  if(r.error)return say('up-msg',CA.err(r.error));
+  if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0)return say('up-msg','이미 가입된 이메일입니다. 로그인하거나 비밀번호 찾기를 이용해 주세요.');
+  if(r.data.session){location.replace(next);return}
+  f.hidden=true;$('up-done-email').textContent=em;$('up-done').hidden=false;$('up-done').focus()})});
+})();</script>
