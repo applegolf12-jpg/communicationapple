@@ -148,7 +148,7 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 </div></div>
 <div class="fld" style="grid-column: 1 / -1"><label for="ap-sess">차수 *</label><select id="ap-sess"></select><small id="ap-sess-hint" class="hint"></small></div>
 <div class="fld"><label for="ap-n">참가 인원 *</label><select id="ap-n"></select></div>
-<div class="fld"><label for="ap-single">1인실 사용 인원</label><select id="ap-single"></select></div>
+<div class="fld"><label for="ap-single">1인실 사용 여부</label><select id="ap-single"></select></div>
 <div class="fld"><label for="ap-name">신청자 이름 *</label><input id="ap-name" type="text" autocomplete="name" placeholder="홍길동"></div>
 <div class="fld"><label for="ap-phone">휴대폰 번호 *</label><input id="ap-phone" type="tel" autocomplete="tel" placeholder="010-0000-0000"></div>
 <div class="fld" style="grid-column: 1 / -1"><label for="ap-mates">동반자 이름</label><input id="ap-mates" type="text" placeholder="예: 김철수, 이영희"></div>
@@ -248,7 +248,7 @@ function fillSess(){var p=prod(),ok=0;sess.innerHTML='<option value="">차수를
  return '<option value="'+x[0]+'"'+(c?' disabled':'')+'>'+lab+'</option>'}).join('');
  hint.textContent=P[p].note+(ok?'':' · 현재 신청 가능한 차수가 없습니다');update()}
 function fillN(){var v=+n.value||1;n.innerHTML='';for(var i=1;i<=8;i++)n.innerHTML+='<option value="'+i+'">'+i+'명</option>';n.value=Math.min(v,8);fillS()}
-function fillS(){var v=+single.value||0,max=+n.value,x=S(),pp=P[prod()].single,nt=x?x.nights:null;single.innerHTML='';for(var i=0;i<=max;i++)single.innerHTML+='<option value="'+i+'">'+(i?i+'명 · 1박당 '+won(pp)+(nt?' × '+nt+'박 = +'+won(pp*nt*i):''):'사용 안 함 (2인 1실)')+'</option>';single.value=Math.min(v,max);update()}
+function fillS(){var v=+single.value||0,max=+n.value,x=S(),pp=P[prod()].single,nt=x?x.nights:null;single.innerHTML='';for(var i=0;i<=max;i++)single.innerHTML+='<option value="'+i+'">'+(i?(max===1?'사용':i+'명 사용')+' · 1박당 '+won(pp)+(nt?' × '+nt+'박 = +'+won(pp*nt*i):''):'사용 안 함 (2인 1실)')+'</option>';single.value=Math.min(v,max);update()}
 function check(){return sess.value?'':'차수를 선택해 주세요.'}
 function calc(){var x=S(),cnt=+n.value,sg=+single.value,lines=[],total='';if(!x)return {x:null,cnt:cnt,sg:sg,lines:lines,total:''};
  var base=x.price*cnt;lines.push('참가비 '+won(x.price)+' × '+cnt+'명 = '+won(base));
