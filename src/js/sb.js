@@ -42,6 +42,7 @@
   };
   CA.err = function (e) {
     var m = (e && (e.message || e.error_description)) || '';
+    if (e) console.warn('auth error', e);
     if (/Invalid login credentials/i.test(m)) return '이메일 또는 비밀번호가 맞지 않습니다.';
     if (/Email not confirmed/i.test(m)) return '이메일 인증이 아직 완료되지 않았습니다. 받은 메일의 링크를 눌러 주세요.';
     if (/already registered|already been registered|User already/i.test(m)) return '이미 가입된 이메일입니다. 로그인하거나 비밀번호 찾기를 이용해 주세요.';
@@ -49,6 +50,8 @@
     if (/rate limit|too many/i.test(m)) return '요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.';
     if (/same.*password|different from the old/i.test(m)) return '기존 비밀번호와 다른 비밀번호를 입력해 주세요.';
     if (/Failed to fetch|network/i.test(m)) return '서버에 연결하지 못했습니다. 인터넷 연결을 확인해 주세요.';
-    return '처리 중 문제가 발생했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 연락 주세요.';
+    if (/Signups not allowed|signup.*disabled/i.test(m)) return '지금은 회원가입을 받지 않고 있습니다.';
+    if (/sending confirmation|Error sending/i.test(m)) return '가입 확인 메일을 보내지 못했습니다. 031-625-9017로 연락 주세요. (오류: 메일 발송)';
+    return '처리 중 문제가 발생했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 연락 주세요.' + (m ? ' (오류: ' + m.slice(0, 80) + ')' : '');
   };
 })();
