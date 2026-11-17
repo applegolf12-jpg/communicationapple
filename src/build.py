@@ -49,7 +49,7 @@ FOOTER = '''<footer style="background: #0E2A21; color: #DCE9E2; padding: 56px 24
 <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 12px">
 <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #FFFFFF; letter-spacing: 0.02em">COMMUNICATION APPLE</span>
-<span style="font-size: 14px; line-height: 1.8">경기도 성남시 분당구 성남대로 51, 115<br>Tel 031-625-9017, 9018 · Fax 031-625-9010<br>applegolf12@gmail.com</span>
+<span style="font-size: 14px; line-height: 1.8">커뮤니케이션 애플 · 대표 양욱 · 사업자등록번호 220-87-75241<br>경기도 성남시 분당구 성남대로 51, 115<br>Tel 031-625-9017, 9018 · Fax 031-625-9010<br>applegolf12@gmail.com</span>
 </div>
 <nav aria-label="하단 메뉴" style="display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: 14px; align-items: flex-start">
 <a href="proam.html" style="color: #DCE9E2; text-decoration: none">이벤트 프로암</a>
