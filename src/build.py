@@ -168,7 +168,15 @@ body = open(SRC + 'index.body.html').read().replace('<!--LOGOS-->', lg)
 page('index.html', '커뮤니케이션 애플 | 골프 행사 대행사 · VIP 골프 행사 · 이벤트 프로암',
      '2008년부터 VIP 고객 초청 골프 대회, 이벤트 프로암, 기업 임직원 골프 행사를 기획·운영해 온 골프 행사 전문 대행사 커뮤니케이션 애플. 애플골프아카데미 운영.',
      'index.html#about', body,
-     css='''@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}.mq{animation:mq 40s linear infinite}
+     css='''.hs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease-in-out;transform:scale(1.0)}
+.hs img.on{opacity:1;animation:kb 7s ease-out forwards}
+.hs img.was{transform:scale(1.07)}
+.hs.paused img.on{animation-play-state:paused}
+@keyframes kb{from{transform:scale(1.0)}to{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.hs img.on{animation:none}.hs img{transition-duration:.6s}}
+.hs-btn{position:absolute;right:14px;bottom:14px;z-index:2;width:40px;height:40px;border-radius:999px;border:none;background:rgba(14,42,33,.55);color:#fff;font-size:13px;cursor:pointer;opacity:.75}
+.hs-btn:hover,.hs-btn:focus-visible{opacity:1}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}.mq{animation:mq 40s linear infinite}
 @keyframes lg{from{transform:translateX(0)}to{transform:translateX(-50%)}}.lgt{animation:lg 80s linear infinite}.lg:hover .lgt{animation-play-state:paused}
 .lg{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .svb{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#EEF1EE}.svb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
@@ -276,6 +284,7 @@ page('404.html', '페이지를 찾을 수 없습니다 | 커뮤니케이션 애�
 
 # ---------- assets ----------
 shutil.copy(SRC + 'og-logo.jpg', OUT + 'og-logo.jpg')
+shutil.rmtree(OUT + 'hero', ignore_errors=True); shutil.copytree(SRC + 'hero', OUT + 'hero')
 shutil.rmtree(OUT + 'js', ignore_errors=True); shutil.copytree(SRC + 'js', OUT + 'js')
 shutil.rmtree(OUT + 'admin', ignore_errors=True); shutil.copytree(SRC + 'admin', OUT + 'admin')
 _ad = open(OUT + 'admin/index.html').read().replace('../js/config.js', '../js/config.js?v=' + JSV).replace('../js/academy-data.js', '../js/academy-data.js?v=' + JSV)
