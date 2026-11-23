@@ -2,7 +2,7 @@
 <div class="hs" id="hs" role="region" aria-roledescription="슬라이드쇼" aria-label="커뮤니케이션 애플 행사 현장 사진" style="flex: 3 1 560px; min-width: 0; border-radius: 28px; overflow: hidden; background: #1F4D3F; aspect-ratio: 16 / 9; position: relative">
 <button type="button" class="hs-btn" id="hs-btn" aria-label="슬라이드쇼 일시정지">❚❚</button>
 </div>
-<script>(function(){var N=26,box=document.getElementById('hs'),btn=document.getElementById('hs-btn'),o=[],i,j,t;
+<script>(function(){var N=23,box=document.getElementById('hs'),btn=document.getElementById('hs-btn'),o=[],i,j,t;
 for(i=1;i<=N;i++)o.push('hero/h'+(i<10?'0':'')+i+'.jpg');for(i=o.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=o[i];o[i]=o[j];o[j]=t}
 var els=o.map(function(src,k){var im=document.createElement('img');im.alt='';im.decoding='async';if(!k){im.src=src;im.fetchPriority='high';im.className='on'}box.insertBefore(im,btn);return im});
 var cur=0,paused=false,timer=null,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
