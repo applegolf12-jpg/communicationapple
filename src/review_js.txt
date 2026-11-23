@@ -1,0 +1,51 @@
+<script>(function(){
+var $=function(i){return document.getElementById(i)},list=$('ur-list'),PAGE=12,shown=0,all=[];
+var MAX_PH=3,files=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function stars(n){return '★★★★★'.slice(0,n)+'<i>'+'★★★★★'.slice(n)+'</i>'}
+function ymd(s){var d=new Date(s);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')}
+function okPhoto(u){return /^https:\/\/[a-z0-9]+\.supabase\.co\/storage\/v1\/object\/public\/reviews\//.test(u)}
+function card(r){return '<article class="ur-card"><span class="s" role="img" aria-label="별점 '+r.rating+'점">'+stars(r.rating)+'</span><span class="a">'+esc(r.academy)+' · '+r.year+'</span><p>'+esc(r.body)+'</p>'+
+ ((r.photos||[]).filter(okPhoto).length?'<div class="ps">'+r.photos.filter(okPhoto).map(function(u,i){return '<a href="'+esc(u)+'" target="_blank" rel="noopener"><img src="'+esc(u)+'" alt="'+esc(r.display_name)+'님 리뷰 사진 '+(i+1)+'" loading="lazy"></a>'}).join('')+'</div>':'')+
+ '<span class="m"><span><b>'+esc(r.display_name)+'</b>님</span>'+(r.verified?'<span class="v">참가 확인</span>':'')+'<span>'+ymd(r.created_at)+'</span></span></article>'}
+function more(){var next=all.slice(shown,shown+PAGE);shown+=next.length;list.insertAdjacentHTML('beforeend',next.map(card).join(''));$('ur-more').hidden=shown>=all.length}
+$('ur-more').onclick=more;
+function load(){if(!window.CA||!CA.sb){list.innerHTML='';$('ur-avg').textContent='';return}
+ CA.sb.from('reviews').select('id,created_at,academy,year,rating,body,photos,display_name,verified').eq('status','게시').order('created_at',{ascending:false}).limit(300).then(function(r){
+  if(r.error){list.innerHTML='';return}all=r.data||[];shown=0;list.innerHTML='';
+  if(!all.length){list.innerHTML='<p class="ur-empty">아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨 주세요.</p>';$('ur-avg').textContent='';return}
+  var avg=all.reduce(function(s,x){return s+x.rating},0)/all.length;
+  $('ur-avg').innerHTML='<b style="color:#E0A100">★ '+avg.toFixed(1)+'</b> · 리뷰 '+all.length+'개';more()})}
+/* 아카데미·연도 */
+var ac=$('ur-ac'),yr=$('ur-yr'),now=new Date().getFullYear();
+for(var y=now+1;y>=2010;y--)yr.insertAdjacentHTML('beforeend','<option value="'+y+'">'+y+'년</option>');
+ac.onchange=function(){var etc=ac.value==='__etc';$('ur-etc-w').hidden=!etc;$('ur-yr-w').hidden=!etc;if(etc){yr.value=String(now);$('ur-etc').focus()}};
+/* 열기·닫기 */
+function toggle(open){$('ur-form').hidden=!open;$('ur-open').setAttribute('aria-expanded',open);if(open){$('ur-done').hidden=true;ac.focus()}}
+$('ur-open').onclick=function(){toggle($('ur-form').hidden)};$('ur-cancel').onclick=function(){toggle(false);$('ur-open').focus()};
+$('ur-body').oninput=function(){$('ur-cnt').textContent=this.value.length+' / 2000'};
+/* 사진: 브라우저에서 1600px JPEG로 줄여서 올림 */
+function shrink(f){return new Promise(function(ok,no){var u=URL.createObjectURL(f),im=new Image();im.onload=function(){var s=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+ c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(function(b){b?ok(b):no()},'image/jpeg',0.85)};im.onerror=function(){URL.revokeObjectURL(u);no()};im.src=u})}
+$('ur-ph').onchange=function(){files=[].slice.call(this.files).slice(0,MAX_PH);if(this.files.length>MAX_PH)say('사진은 최대 '+MAX_PH+'장까지 올릴 수 있어 앞의 '+MAX_PH+'장만 선택했습니다.');else say('');
+ $('ur-prev').innerHTML='';files.forEach(function(f){var u=URL.createObjectURL(f);$('ur-prev').insertAdjacentHTML('beforeend','<img src="'+u+'" alt="선택한 사진 미리보기">')})};
+function say(t){var m=$('ur-msg');m.textContent=t;m.hidden=!t}
+function uid(){return (crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)).replace(/[^a-z0-9-]/gi,'')}
+$('ur-form').addEventListener('submit',function(e){e.preventDefault();
+ var etc=ac.value==='__etc',academy=etc?$('ur-etc').value.trim():ac.value,opt=ac.options[ac.selectedIndex],year=etc?+yr.value:+(opt&&opt.dataset.y),
+  r=document.querySelector('input[name=ur-r]:checked'),body=$('ur-body').value.trim(),name=$('ur-name').value.trim(),tel=$('ur-tel').value.trim(),m='';
+ if(!academy)m=etc?'아카데미 이름을 입력해 주세요.':'참가한 아카데미를 선택해 주세요.';else if(!r)m='별점을 선택해 주세요.';else if(body.length<10)m='리뷰 내용을 10자 이상 적어 주세요.';
+ else if(!name)m='이름을 입력해 주세요.';else if(tel&&!/^0\d{1,2}-\d{3,4}-\d{4}$/.test(tel))m='연락처 형식을 확인해 주세요. (예: 010-1234-5678)';else if(!$('ur-ok').checked)m='개인정보 수집·이용에 동의해 주세요.';
+ if(m)return say(m);say('');
+ if($('ur-web').value)return done();
+ if(!window.CA||!CA.sb)return say('지금은 리뷰를 접수할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+ var b=this.querySelector('button[type=submit]');b.disabled=true;b.textContent=files.length?'사진 올리는 중…':'등록 중…';
+ Promise.all(files.map(function(f){return shrink(f).then(function(blob){var p='new/'+uid()+'.jpg';
+   return CA.sb.storage.from('reviews').upload(p,blob,{contentType:'image/jpeg',upsert:false}).then(function(res){if(res.error)throw res.error;return CA.sb.storage.from('reviews').getPublicUrl(p).data.publicUrl})})}))
+ .then(function(urls){b.textContent='등록 중…';return CA.sb.from('reviews').insert({academy:academy.slice(0,80),year:year,rating:+r.value,body:body,photos:urls,name:name,phone:tel||null})})
+ .then(function(res){if(res&&res.error)throw res.error;done()})
+ .catch(function(err){console.warn(err);say(/too many/.test(err&&err.message||'')?'지금 리뷰가 많이 접수되고 있습니다. 잠시 후 다시 시도해 주세요.':'리뷰를 등록하지 못했습니다. 사진 용량이 크거나 연결이 불안정할 수 있습니다. 잠시 후 다시 시도해 주세요.')})
+ .then(function(){b.disabled=false;b.textContent='리뷰 등록'})});
+function done(){var f=$('ur-form');f.reset();files=[];$('ur-prev').innerHTML='';$('ur-cnt').textContent='0 / 2000';$('ur-etc-w').hidden=$('ur-yr-w').hidden=true;f.hidden=true;$('ur-open').setAttribute('aria-expanded','false');$('ur-done').hidden=false;$('ur-done').focus()}
+(window.CA?CA.ready:Promise.resolve()).then(load);
+})();</script>

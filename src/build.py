@@ -235,6 +235,10 @@ rc = lambda r: f'<div class="rc"><span class="rq">Q. {r[0]}</span><p class="ra">
 revs = ''.join(rc(r) for r in REV) + '<div aria-hidden="true" style="display:flex;align-items:stretch">' + ''.join(rc(r) for r in REV) + '</div>'
 past = ''.join(f'''<div class="card" style="display: flex; flex-direction: column; gap: 10px"><div class="ppb"><img src="/_blob/{p[3]}" alt="{p[1]} 포스터" loading="lazy"></div><span style="font-size: 13px; font-weight: 700; color: #1F4D3F">{p[0]}</span><span style="font-size: 18px; font-weight: 700; line-height: 1.45">{p[1]}</span><span style="font-size: 14px; color: #5A645F">{p[2]}</span></div>''' for p in PAST)
 body = open(SRC + 'academy.body.html').read().replace('<!--REVIEWS-->', revs).replace('<!--PAST-->', past)
+import html as _h, re as _re
+_opts = [('2027 동계', '2027 애플 동계 아카데미 IN 칸차나부리'), ('2027 동계', '2027 애플 동계 프레스티지 아카데미 IN 아마타')] + [(p[0], p[1]) for p in PAST]
+_ur_opts = ''.join(f'<option value="{_h.escape(t)}" data-y="{int(_re.match(r"\d{4}", y).group(0))}">{_h.escape(y)} · {_h.escape(t)}</option>' for y, t in _opts)
+body = body.replace('<section style="background: #F2F4F1; padding: 96px 24px">', open(SRC + 'review_section.html').read().replace('<!--UR_OPTIONS-->', _ur_opts) + '\n<section style="background: #F2F4F1; padding: 96px 24px">', 1)
 body += '''<div id="lb" role="dialog" aria-modal="true" aria-labelledby="lbt" hidden style="position: fixed; inset: 0; z-index: 1000; background: rgba(10,16,13,0.94); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px">
 <div style="width: 100%; max-width: 980px; display: flex; align-items: center; justify-content: space-between; gap: 16px; color: #FFFFFF"><span id="lbt" style="font-size: 15px; font-weight: 700"></span>
 <button type="button" id="lbx" aria-label="닫기" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.6) !important; background: transparent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
@@ -256,7 +260,7 @@ document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='
 var sx=null;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)step(dx<0?1:-1);sx=null;});
 })();</script>''' % gal
 page('academy.html', '애플골프아카데미 | 해외 골프 전지훈련 · 동계 골프 레슨 캠프', '투어 프로와 함께하는 해외 골프 전지훈련 애플골프아카데미. 2027 동계 태국 칸차나부리·아마타 골프 아카데미 모집 중.', 'academy.html', body,
-     ACSS + '\n' + open(SRC + 'apply_css.txt').read() + '\n.ppb{position:relative;aspect-ratio:3/4;border-radius:20px;background:#E3E8E4;overflow:hidden}.ppb img{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);object-fit:contain;transition:transform .5s ease}\n@media (max-width:640px){#lbp,#lbn{display:none!important}}', ajs)
+     ACSS + '\n' + open(SRC + 'apply_css.txt').read() + '\n' + open(SRC + 'review_css.txt').read() + '\n.ppb{position:relative;aspect-ratio:3/4;border-radius:20px;background:#E3E8E4;overflow:hidden}.ppb img{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);object-fit:contain;transition:transform .5s ease}\n@media (max-width:640px){#lbp,#lbn{display:none!important}}', ajs + open(SRC + 'review_js.txt').read())
 
 # ---------- contact ----------
 cjs = '''<script>(function(){var URL_='https://script.google.com/macros/s/AKfycbzhxdmpaMAjDgBlKLcWKRUhzRguJeHrj44hPz4J7pTjutgs4Lx3ZFxxPX8HWqaTiKO3/exec';

@@ -77,6 +77,35 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 .sum-t{font-size:24px;font-weight:900;color:#141A17;margin-top:6px}.sum-n{font-size:12px;color:#5A645F;margin-top:4px;word-break:keep-all}
 [aria-invalid=true]{border-color:#B3261E!important}
 
+.ur-btn{min-height:48px;padding:0 24px;border-radius:999px;border:1.5px solid #1F4D3F;background:#1F4D3F;color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.ur-btn.ghost{background:#fff;color:#141A17;border-color:#B9C2BD}
+.ur-btn:disabled{opacity:.6;cursor:default}
+.ur-box{background:#fff;border:1px solid #D5DAD6;border-radius:24px;padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:18px;position:relative}
+.ur-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.fld label{font-size:14px;font-weight:700}
+.ur-stars{border:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ur-stars legend{font-size:14px;font-weight:700;padding:0;margin-bottom:6px}
+.ur-st{display:inline-flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px}
+.ur-st input{position:absolute;opacity:0;width:1px;height:1px}
+.ur-st label{font-size:34px;line-height:1;color:#D3D8D4;cursor:pointer;padding:2px}
+.ur-st input:checked~label,.ur-st label:hover,.ur-st label:hover~label{color:#E0A100}
+.ur-st input:focus-visible+label{outline:2px solid #1F4D3F;outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ur-prev{display:flex;gap:8px;flex-wrap:wrap}.ur-prev img{width:88px;height:88px;object-fit:cover;border-radius:10px;border:1px solid #D5DAD6}
+.ur-agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.7;color:#3E4843}
+.ur-agree input{width:20px;height:20px;flex:none;margin-top:2px;padding:0}
+.ur-agree label{font-weight:500}
+.ur-msg{margin:0;font-size:14px;font-weight:700;color:#B3261E}
+.ur-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;align-items:start}
+.ur-card{background:#fff;border:1px solid #E1E6E2;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.ur-card .s{color:#E0A100;font-size:18px;letter-spacing:1px}.ur-card .s i{color:#D3D8D4;font-style:normal}
+.ur-card .a{font-size:13px;font-weight:700;color:#1F4D3F}
+.ur-card p{margin:0;font-size:15px;line-height:1.75;color:#141A17;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.ur-card .m{font-size:13px;color:#5A645F;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ur-card .v{background:#DDF1E5;color:#1F6B45;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.ur-card .ps{display:flex;gap:6px}.ur-card .ps a{display:block}.ur-card .ps img{width:84px;height:84px;object-fit:cover;border-radius:10px}
+.ur-empty{grid-column:1/-1;margin:0;padding:28px;text-align:center;color:#5A645F;background:#F2F4F1;border-radius:20px}
+
 .ppb{position:relative;aspect-ratio:3/4;border-radius:20px;background:#E3E8E4;overflow:hidden}.ppb img{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);object-fit:contain;transition:transform .5s ease}
 @media (max-width:640px){#lbp,#lbn{display:none!important}}</style>
 </head>
@@ -187,10 +216,44 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <p style="margin: 0; font-size: 15px; color: #3E4843">참가자 설문 응답에서 옮겨왔습니다</p>
 </div>
 </section>
-<section aria-label="참가자 후기" class="rvw" style="overflow: hidden; padding: 0 0 100px">
+<section aria-label="참가자 후기" class="rvw" style="overflow: hidden; padding: 0 0 56px">
 <div class="rvt" style="display: flex; width: max-content; align-items: stretch">
 <div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“밀착 레슨이 가장 좋았어요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“좋은 필드, 멋진 프로님들! ^^”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자 가셔도 좋은 분들과 편하게 녹아내릴 수 있는 분위기입니다. 체력과 열정은 꼭 챙겨가시길요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“오래 쳐도 숏게임이 늘지 않는 골퍼에게 추천해요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“시설과 레슨이 좋았어요.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“실력은 확실하게 업그레이드됩니다.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“혼자 와도 좋고, 연인이랑 같이 와도 좋은 것 같습니다.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“이쁘고 멋진 프로님들에게 레슨을 배울 수 있었던 점, 해외에서 골프를 칠 수 있었던 점이 좋았어요.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“실행이 전부다. 실행하지 않으면 아무런 가능성도 없습니다.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“골퍼라면 누구든지 추천해요.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“골프에만 온전히 집중할 수 있었어요.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자여도 괜찮고, 실력 향상에 많은 도움이 됩니다!”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“모든 골퍼에게 추천해요!”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자 가면 더 좋아요.”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“주변 누구에게나 추천하고 싶어요.”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div><div aria-hidden="true" style="display:flex;align-items:stretch"><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“밀착 레슨이 가장 좋았어요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“좋은 필드, 멋진 프로님들! ^^”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자 가셔도 좋은 분들과 편하게 녹아내릴 수 있는 분위기입니다. 체력과 열정은 꼭 챙겨가시길요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“오래 쳐도 숏게임이 늘지 않는 골퍼에게 추천해요.”</p><span class="rn">애플 썸머 아카데미 IN 하코다테</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“시설과 레슨이 좋았어요.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“실력은 확실하게 업그레이드됩니다.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“혼자 와도 좋고, 연인이랑 같이 와도 좋은 것 같습니다.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“이쁘고 멋진 프로님들에게 레슨을 배울 수 있었던 점, 해외에서 골프를 칠 수 있었던 점이 좋았어요.”</p><span class="rn">애플 동계 아카데미 IN 아마타</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“실행이 전부다. 실행하지 않으면 아무런 가능성도 없습니다.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“골퍼라면 누구든지 추천해요.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 가장 좋았던 점</span><p class="ra">“골프에만 온전히 집중할 수 있었어요.”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자여도 괜찮고, 실력 향상에 많은 도움이 됩니다!”</p><span class="rn">애플 썸머 아카데미 IN 대관령</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“모든 골퍼에게 추천해요!”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div><div class="rc"><span class="rq">Q. 신청을 고민하는 분께</span><p class="ra">“혼자 가면 더 좋아요.”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div><div class="rc"><span class="rq">Q. 추천하고 싶은 분</span><p class="ra">“주변 누구에게나 추천하고 싶어요.”</p><span class="rn">애플 동계 아카데미 IN 다라사꼬르</span></div></div>
 </div>
+</section>
+
+<section id="reviews" aria-labelledby="ur-h" style="max-width: 1320px; margin: 0 auto; padding: 0 24px 100px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="ur-h" style="margin: 0; font-size: 28px; font-weight: 900">참가자 리뷰</h2>
+<p id="ur-avg" style="margin: 0; font-size: 15px; color: #3E4843" aria-live="polite"></p>
+</div>
+<button type="button" id="ur-open" class="ur-btn" aria-expanded="false" aria-controls="ur-form">리뷰 쓰기</button>
+</div>
+
+<form id="ur-form" hidden novalidate class="ur-box">
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3E4843; word-break: keep-all">애플골프아카데미에 참가하셨던 분이라면 누구나 남길 수 있습니다. 작성한 리뷰는 <b>담당자 확인 후 게시</b>되며, 이름은 성만 공개됩니다(예: 김**).</p>
+<div class="ur-grid">
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-ac">참가한 아카데미 *</label><select id="ur-ac"><option value="">선택해 주세요</option><option value="2027 애플 동계 아카데미 IN 칸차나부리" data-y="2027">2027 동계 · 2027 애플 동계 아카데미 IN 칸차나부리</option><option value="2027 애플 동계 프레스티지 아카데미 IN 아마타" data-y="2027">2027 동계 · 2027 애플 동계 프레스티지 아카데미 IN 아마타</option><option value="애플 썸머 아카데미 IN 하코다테" data-y="2026">2026 하계 · 애플 썸머 아카데미 IN 하코다테</option><option value="애플 동계 PRESTIGE 아카데미 IN 아마타" data-y="2025">2025–26 동계 · 애플 동계 PRESTIGE 아카데미 IN 아마타</option><option value="애플 동계 이코노미 골프캠프 IN 방콕" data-y="2026">2026 동계 · 애플 동계 이코노미 골프캠프 IN 방콕</option><option value="애플 SUMMER 아카데미 IN 대관령" data-y="2025">2025 하계 · 애플 SUMMER 아카데미 IN 대관령</option><option value="애플 동계 골프 아카데미 IN 다라사꼬르" data-y="2024">2024–25 동계 · 애플 동계 골프 아카데미 IN 다라사꼬르</option><option value="애플 동계 PRESTIGE 아카데미 IN 아마타" data-y="2024">2024–25 동계 · 애플 동계 PRESTIGE 아카데미 IN 아마타</option><option value="애플 동계 아카데미 IN THAILAND" data-y="2022">2022–23 동계 · 애플 동계 아카데미 IN THAILAND</option><option value="애플 스프링 아카데미 IN 오크밸리" data-y="2022">2022 봄 · 애플 스프링 아카데미 IN 오크밸리</option><option value="애플 가을 아카데미 IN 오크밸리" data-y="2021">2021 가을 · 애플 가을 아카데미 IN 오크밸리</option><option value="애플 여름 아카데미 IN 오크밸리" data-y="2021">2021 하계 · 애플 여름 아카데미 IN 오크밸리</option><option value="애플 봄 아카데미 IN 오크밸리" data-y="2021">2021 봄 · 애플 봄 아카데미 IN 오크밸리</option><option value="애플 동계 아카데미 IN 제주" data-y="2020">2020–21 동계 · 애플 동계 아카데미 IN 제주</option><option value="애플 SUMMER 골프 아카데미 IN 오크밸리" data-y="2020">2020 하계 · 애플 SUMMER 골프 아카데미 IN 오크밸리</option><option value="애플 동계 골프 아카데미 IN 태국 로얄젬스" data-y="2019">2019–20 동계 · 애플 동계 골프 아카데미 IN 태국 로얄젬스</option><option value="JTBC GOLF 동계 아카데미 Live Lesson in Thailand" data-y="2016">2016–17 동계 · JTBC GOLF 동계 아카데미 Live Lesson in Thailand</option><option value="__etc">기타 (직접 입력)</option></select></div>
+<div class="fld" id="ur-etc-w" hidden><label for="ur-etc">아카데미 이름 *</label><input id="ur-etc" type="text" maxlength="60" placeholder="예: 애플 겨울 아카데미 IN 치앙마이"></div>
+<div class="fld" id="ur-yr-w" hidden><label for="ur-yr">참가 연도 *</label><select id="ur-yr"></select></div>
+<fieldset class="ur-stars" style="grid-column: 1 / -1"><legend>별점 *</legend>
+<div class="ur-st"><input type="radio" name="ur-r" id="ur-r5" value="5"><label for="ur-r5" title="5점">★<span class="sr">5점</span></label><input type="radio" name="ur-r" id="ur-r4" value="4"><label for="ur-r4" title="4점">★<span class="sr">4점</span></label><input type="radio" name="ur-r" id="ur-r3" value="3"><label for="ur-r3" title="3점">★<span class="sr">3점</span></label><input type="radio" name="ur-r" id="ur-r2" value="2"><label for="ur-r2" title="2점">★<span class="sr">2점</span></label><input type="radio" name="ur-r" id="ur-r1" value="1"><label for="ur-r1" title="1점">★<span class="sr">1점</span></label></div>
+</fieldset>
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-body">리뷰 내용 * <small class="hint" id="ur-cnt">0 / 2000</small></label><textarea id="ur-body" rows="6" maxlength="2000" placeholder="레슨, 숙소, 식사, 일정 등 좋았던 점과 아쉬웠던 점을 자유롭게 적어 주세요. (10자 이상)"></textarea></div>
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-ph">사진 (선택, 최대 3장)</label><input id="ur-ph" type="file" accept="image/jpeg,image/png,image/webp" multiple><div id="ur-prev" class="ur-prev"></div></div>
+<div class="fld"><label for="ur-name">이름 *</label><input id="ur-name" type="text" autocomplete="name" maxlength="30"><small class="hint">사이트에는 성만 공개됩니다</small></div>
+<div class="fld"><label for="ur-tel">연락처 (선택)</label><input id="ur-tel" type="tel" autocomplete="tel" placeholder="010-0000-0000"><small class="hint">공개되지 않습니다. 참가 확인용입니다</small></div>
+<div class="fld" aria-hidden="true" style="position: absolute; left: -9999px"><label for="ur-web">웹사이트</label><input id="ur-web" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="ur-agree" style="grid-column: 1 / -1"><input type="checkbox" id="ur-ok"><label for="ur-ok">(필수) 리뷰 게시를 위한 개인정보 수집·이용에 동의합니다. 수집 항목: 이름, 연락처(선택), 사진 · 이용 목적: 리뷰 게시, 참가 여부 확인 · 보유 기간: 리뷰 삭제 시까지. <a href="privacy.html" target="_blank">개인정보처리방침</a></label></div>
+</div>
+<p id="ur-msg" class="ur-msg" role="alert" hidden></p>
+<div style="display: flex; gap: 10px; flex-wrap: wrap"><button type="submit" class="ur-btn">리뷰 등록</button><button type="button" id="ur-cancel" class="ur-btn ghost">취소</button></div>
+</form>
+<div id="ur-done" hidden tabindex="-1" class="ur-box" style="text-align: center; outline: none"><b style="font-size: 18px">리뷰가 접수되었습니다. 감사합니다!</b><span style="font-size: 14px; color: #3E4843">담당자 확인 후 사이트에 게시됩니다.</span></div>
+
+<div id="ur-list" class="ur-list" aria-live="polite"></div>
+<button type="button" id="ur-more" class="ur-btn ghost" hidden style="align-self: center">리뷰 더 보기</button>
 </section>
 
 <section style="background: #F2F4F1; padding: 96px 24px">
@@ -313,6 +376,57 @@ document.getElementById('lbx').addEventListener('click',close);document.getEleme
 lb.addEventListener('click',function(e){if(e.target===lb)close()});
 document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);});
 var sx=null;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)step(dx<0?1:-1);sx=null;});
+})();</script><script>(function(){
+var $=function(i){return document.getElementById(i)},list=$('ur-list'),PAGE=12,shown=0,all=[];
+var MAX_PH=3,files=[];
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function stars(n){return '★★★★★'.slice(0,n)+'<i>'+'★★★★★'.slice(n)+'</i>'}
+function ymd(s){var d=new Date(s);return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')}
+function okPhoto(u){return /^https:\/\/[a-z0-9]+\.supabase\.co\/storage\/v1\/object\/public\/reviews\//.test(u)}
+function card(r){return '<article class="ur-card"><span class="s" role="img" aria-label="별점 '+r.rating+'점">'+stars(r.rating)+'</span><span class="a">'+esc(r.academy)+' · '+r.year+'</span><p>'+esc(r.body)+'</p>'+
+ ((r.photos||[]).filter(okPhoto).length?'<div class="ps">'+r.photos.filter(okPhoto).map(function(u,i){return '<a href="'+esc(u)+'" target="_blank" rel="noopener"><img src="'+esc(u)+'" alt="'+esc(r.display_name)+'님 리뷰 사진 '+(i+1)+'" loading="lazy"></a>'}).join('')+'</div>':'')+
+ '<span class="m"><span><b>'+esc(r.display_name)+'</b>님</span>'+(r.verified?'<span class="v">참가 확인</span>':'')+'<span>'+ymd(r.created_at)+'</span></span></article>'}
+function more(){var next=all.slice(shown,shown+PAGE);shown+=next.length;list.insertAdjacentHTML('beforeend',next.map(card).join(''));$('ur-more').hidden=shown>=all.length}
+$('ur-more').onclick=more;
+function load(){if(!window.CA||!CA.sb){list.innerHTML='';$('ur-avg').textContent='';return}
+ CA.sb.from('reviews').select('id,created_at,academy,year,rating,body,photos,display_name,verified').eq('status','게시').order('created_at',{ascending:false}).limit(300).then(function(r){
+  if(r.error){list.innerHTML='';return}all=r.data||[];shown=0;list.innerHTML='';
+  if(!all.length){list.innerHTML='<p class="ur-empty">아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨 주세요.</p>';$('ur-avg').textContent='';return}
+  var avg=all.reduce(function(s,x){return s+x.rating},0)/all.length;
+  $('ur-avg').innerHTML='<b style="color:#E0A100">★ '+avg.toFixed(1)+'</b> · 리뷰 '+all.length+'개';more()})}
+/* 아카데미·연도 */
+var ac=$('ur-ac'),yr=$('ur-yr'),now=new Date().getFullYear();
+for(var y=now+1;y>=2010;y--)yr.insertAdjacentHTML('beforeend','<option value="'+y+'">'+y+'년</option>');
+ac.onchange=function(){var etc=ac.value==='__etc';$('ur-etc-w').hidden=!etc;$('ur-yr-w').hidden=!etc;if(etc){yr.value=String(now);$('ur-etc').focus()}};
+/* 열기·닫기 */
+function toggle(open){$('ur-form').hidden=!open;$('ur-open').setAttribute('aria-expanded',open);if(open){$('ur-done').hidden=true;ac.focus()}}
+$('ur-open').onclick=function(){toggle($('ur-form').hidden)};$('ur-cancel').onclick=function(){toggle(false);$('ur-open').focus()};
+$('ur-body').oninput=function(){$('ur-cnt').textContent=this.value.length+' / 2000'};
+/* 사진: 브라우저에서 1600px JPEG로 줄여서 올림 */
+function shrink(f){return new Promise(function(ok,no){var u=URL.createObjectURL(f),im=new Image();im.onload=function(){var s=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+ c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(function(b){b?ok(b):no()},'image/jpeg',0.85)};im.onerror=function(){URL.revokeObjectURL(u);no()};im.src=u})}
+$('ur-ph').onchange=function(){files=[].slice.call(this.files).slice(0,MAX_PH);if(this.files.length>MAX_PH)say('사진은 최대 '+MAX_PH+'장까지 올릴 수 있어 앞의 '+MAX_PH+'장만 선택했습니다.');else say('');
+ $('ur-prev').innerHTML='';files.forEach(function(f){var u=URL.createObjectURL(f);$('ur-prev').insertAdjacentHTML('beforeend','<img src="'+u+'" alt="선택한 사진 미리보기">')})};
+function say(t){var m=$('ur-msg');m.textContent=t;m.hidden=!t}
+function uid(){return (crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)).replace(/[^a-z0-9-]/gi,'')}
+$('ur-form').addEventListener('submit',function(e){e.preventDefault();
+ var etc=ac.value==='__etc',academy=etc?$('ur-etc').value.trim():ac.value,opt=ac.options[ac.selectedIndex],year=etc?+yr.value:+(opt&&opt.dataset.y),
+  r=document.querySelector('input[name=ur-r]:checked'),body=$('ur-body').value.trim(),name=$('ur-name').value.trim(),tel=$('ur-tel').value.trim(),m='';
+ if(!academy)m=etc?'아카데미 이름을 입력해 주세요.':'참가한 아카데미를 선택해 주세요.';else if(!r)m='별점을 선택해 주세요.';else if(body.length<10)m='리뷰 내용을 10자 이상 적어 주세요.';
+ else if(!name)m='이름을 입력해 주세요.';else if(tel&&!/^0\d{1,2}-\d{3,4}-\d{4}$/.test(tel))m='연락처 형식을 확인해 주세요. (예: 010-1234-5678)';else if(!$('ur-ok').checked)m='개인정보 수집·이용에 동의해 주세요.';
+ if(m)return say(m);say('');
+ if($('ur-web').value)return done();
+ if(!window.CA||!CA.sb)return say('지금은 리뷰를 접수할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+ var b=this.querySelector('button[type=submit]');b.disabled=true;b.textContent=files.length?'사진 올리는 중…':'등록 중…';
+ Promise.all(files.map(function(f){return shrink(f).then(function(blob){var p='new/'+uid()+'.jpg';
+   return CA.sb.storage.from('reviews').upload(p,blob,{contentType:'image/jpeg',upsert:false}).then(function(res){if(res.error)throw res.error;return CA.sb.storage.from('reviews').getPublicUrl(p).data.publicUrl})})}))
+ .then(function(urls){b.textContent='등록 중…';return CA.sb.from('reviews').insert({academy:academy.slice(0,80),year:year,rating:+r.value,body:body,photos:urls,name:name,phone:tel||null})})
+ .then(function(res){if(res&&res.error)throw res.error;done()})
+ .catch(function(err){console.warn(err);say(/too many/.test(err&&err.message||'')?'지금 리뷰가 많이 접수되고 있습니다. 잠시 후 다시 시도해 주세요.':'리뷰를 등록하지 못했습니다. 사진 용량이 크거나 연결이 불안정할 수 있습니다. 잠시 후 다시 시도해 주세요.')})
+ .then(function(){b.disabled=false;b.textContent='리뷰 등록'})});
+function done(){var f=$('ur-form');f.reset();files=[];$('ur-prev').innerHTML='';$('ur-cnt').textContent='0 / 2000';$('ur-etc-w').hidden=$('ur-yr-w').hidden=true;f.hidden=true;$('ur-open').setAttribute('aria-expanded','false');$('ur-done').hidden=false;$('ur-done').focus()}
+(window.CA?CA.ready:Promise.resolve()).then(load);
 })();</script>
+
 </body>
 </html>

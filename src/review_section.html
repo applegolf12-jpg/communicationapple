@@ -1,0 +1,33 @@
+<section id="reviews" aria-labelledby="ur-h" style="max-width: 1320px; margin: 0 auto; padding: 0 24px 100px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="ur-h" style="margin: 0; font-size: 28px; font-weight: 900">참가자 리뷰</h2>
+<p id="ur-avg" style="margin: 0; font-size: 15px; color: #3E4843" aria-live="polite"></p>
+</div>
+<button type="button" id="ur-open" class="ur-btn" aria-expanded="false" aria-controls="ur-form">리뷰 쓰기</button>
+</div>
+
+<form id="ur-form" hidden novalidate class="ur-box">
+<p style="margin: 0; font-size: 14px; line-height: 1.7; color: #3E4843; word-break: keep-all">애플골프아카데미에 참가하셨던 분이라면 누구나 남길 수 있습니다. 작성한 리뷰는 <b>담당자 확인 후 게시</b>되며, 이름은 성만 공개됩니다(예: 김**).</p>
+<div class="ur-grid">
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-ac">참가한 아카데미 *</label><select id="ur-ac"><option value="">선택해 주세요</option><!--UR_OPTIONS--><option value="__etc">기타 (직접 입력)</option></select></div>
+<div class="fld" id="ur-etc-w" hidden><label for="ur-etc">아카데미 이름 *</label><input id="ur-etc" type="text" maxlength="60" placeholder="예: 애플 겨울 아카데미 IN 치앙마이"></div>
+<div class="fld" id="ur-yr-w" hidden><label for="ur-yr">참가 연도 *</label><select id="ur-yr"></select></div>
+<fieldset class="ur-stars" style="grid-column: 1 / -1"><legend>별점 *</legend>
+<div class="ur-st"><input type="radio" name="ur-r" id="ur-r5" value="5"><label for="ur-r5" title="5점">★<span class="sr">5점</span></label><input type="radio" name="ur-r" id="ur-r4" value="4"><label for="ur-r4" title="4점">★<span class="sr">4점</span></label><input type="radio" name="ur-r" id="ur-r3" value="3"><label for="ur-r3" title="3점">★<span class="sr">3점</span></label><input type="radio" name="ur-r" id="ur-r2" value="2"><label for="ur-r2" title="2점">★<span class="sr">2점</span></label><input type="radio" name="ur-r" id="ur-r1" value="1"><label for="ur-r1" title="1점">★<span class="sr">1점</span></label></div>
+</fieldset>
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-body">리뷰 내용 * <small class="hint" id="ur-cnt">0 / 2000</small></label><textarea id="ur-body" rows="6" maxlength="2000" placeholder="레슨, 숙소, 식사, 일정 등 좋았던 점과 아쉬웠던 점을 자유롭게 적어 주세요. (10자 이상)"></textarea></div>
+<div class="fld" style="grid-column: 1 / -1"><label for="ur-ph">사진 (선택, 최대 3장)</label><input id="ur-ph" type="file" accept="image/jpeg,image/png,image/webp" multiple><div id="ur-prev" class="ur-prev"></div></div>
+<div class="fld"><label for="ur-name">이름 *</label><input id="ur-name" type="text" autocomplete="name" maxlength="30"><small class="hint">사이트에는 성만 공개됩니다</small></div>
+<div class="fld"><label for="ur-tel">연락처 (선택)</label><input id="ur-tel" type="tel" autocomplete="tel" placeholder="010-0000-0000"><small class="hint">공개되지 않습니다. 참가 확인용입니다</small></div>
+<div class="fld" aria-hidden="true" style="position: absolute; left: -9999px"><label for="ur-web">웹사이트</label><input id="ur-web" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="ur-agree" style="grid-column: 1 / -1"><input type="checkbox" id="ur-ok"><label for="ur-ok">(필수) 리뷰 게시를 위한 개인정보 수집·이용에 동의합니다. 수집 항목: 이름, 연락처(선택), 사진 · 이용 목적: 리뷰 게시, 참가 여부 확인 · 보유 기간: 리뷰 삭제 시까지. <a href="privacy.html" target="_blank">개인정보처리방침</a></label></div>
+</div>
+<p id="ur-msg" class="ur-msg" role="alert" hidden></p>
+<div style="display: flex; gap: 10px; flex-wrap: wrap"><button type="submit" class="ur-btn">리뷰 등록</button><button type="button" id="ur-cancel" class="ur-btn ghost">취소</button></div>
+</form>
+<div id="ur-done" hidden tabindex="-1" class="ur-box" style="text-align: center; outline: none"><b style="font-size: 18px">리뷰가 접수되었습니다. 감사합니다!</b><span style="font-size: 14px; color: #3E4843">담당자 확인 후 사이트에 게시됩니다.</span></div>
+
+<div id="ur-list" class="ur-list" aria-live="polite"></div>
+<button type="button" id="ur-more" class="ur-btn ghost" hidden style="align-self: center">리뷰 더 보기</button>
+</section>

@@ -58,6 +58,7 @@ tfoot td{font-weight:900;background:#FAFBFA}
 .st[data-s=입금확인]{background:#E2EEFF;color:#1C4E9A}
 .st[data-s=예약확정],.st[data-s=계약]{background:#DDF1E5;color:#1F6B45}
 .st[data-s=취소],.st[data-s=종료]{background:#ECEDEC;color:#6B716E}
+.st[data-s=대기]{background:#FDE7E4;color:#9A2B22}.st[data-s=게시]{background:#DDF1E5;color:#1F6B45}.st[data-s=숨김]{background:#ECEDEC;color:#6B716E}
 .st[data-s=direct]{background:#EDE7F6;color:#4A2F86}
 .meter{height:8px;border-radius:99px;background:#E7ECE9;overflow:hidden;min-width:90px}.meter i{display:block;height:100%;background:var(--g)}
 .meter i.full{background:#B3261E}
@@ -97,6 +98,7 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 <button role="tab" data-t="apps">아카데미 신청<span class="cnt" id="c-apps" hidden></span></button>
 <button role="tab" data-t="sess">차수별 현황</button>
 <button role="tab" data-t="inq">행사 문의<span class="cnt" id="c-inq" hidden></span></button>
+<button role="tab" data-t="rev">리뷰<span class="cnt" id="c-rev" hidden></span></button>
 <button role="tab" data-t="mem">회원</button>
 </nav>
 <main>
@@ -129,6 +131,16 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 <div class="card" style="padding:0"><div class="tw" id="inq-tbl"></div></div>
 </section>
 
+<section class="panel" id="t-rev" hidden>
+<div class="card"><div class="bar">
+<div class="f"><label for="fr-st">상태</label><select id="fr-st"><option value="">전체</option><option selected>대기</option><option>게시</option><option>숨김</option></select></div>
+<div class="f" style="flex:1 1 200px"><label for="fr-q">검색</label><input id="fr-q" type="search" placeholder="이름·연락처·내용·아카데미"></div>
+</div>
+<p class="sub" style="margin:12px 0 0;line-height:1.6">사이트에서 작성된 리뷰는 <b>대기</b> 상태로 들어옵니다. 내용을 확인하고 <b>게시</b>로 바꿔야 사이트에 보입니다. 욕설·비방·광고·개인정보가 담긴 리뷰는 <b>숨김</b> 처리하세요. 실제 참가자로 확인되면 <b>참가 확인</b>에 체크하면 사이트에 표시가 붙습니다.</p>
+</div>
+<div class="card" style="padding:0"><div class="tw" id="rev-tbl"></div></div>
+</section>
+
 <section class="panel" id="t-mem" hidden>
 <div class="card"><div class="bar">
 <div class="f"><label for="fm-mk">마케팅 수신</label><select id="fm-mk"><option value="">전체</option><option value="1">동의</option><option value="0">미동의</option></select></div>
@@ -151,7 +163,7 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)},C=window.SB_CONFIG||{},A=window.ACADEMY,sb=null,me=null;
-var DATA={apps:[],inq:[],mem:[]};
+var DATA={apps:[],inq:[],mem:[],rev:[]};
 var PLACE={'칸차나부리':'k','아마타':'a'};
 var AST=['신청접수','결제안내','입금확인','예약확정','취소'],IST=['신규','연락완료','견적진행','계약','종료'];
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -182,14 +194,15 @@ $('out').onclick=function(){sb.auth.signOut().then(function(){location.reload()}
 function loadAll(){return Promise.all([
  sb.from('academy_applications').select('*').order('created_at',{ascending:false}).limit(5000),
  sb.from('inquiries').select('*').order('created_at',{ascending:false}).limit(5000),
- sb.from('profiles').select('*').order('created_at',{ascending:false}).limit(10000)
+ sb.from('profiles').select('*').order('created_at',{ascending:false}).limit(10000),
+ sb.rpc('admin_reviews')
 ]).then(function(rs){var bad=rs.filter(function(r){return r.error})[0];if(bad){toast(errMsg(bad.error))}
- DATA.apps=rs[0].data||[];DATA.inq=rs[1].data||[];DATA.mem=rs[2].data||[];prep();renderAll()})}
+ DATA.apps=rs[0].data||[];DATA.inq=rs[1].data||[];DATA.mem=rs[2].data||[];DATA.rev=(rs[3]&&!rs[3].error&&rs[3].data)||[];prep();renderAll()})}
 function dig(p){return String(p||'').replace(/\D/g,'')}
 function prep(){var keys={};DATA.apps.forEach(function(a){if(a.source!=='direct')return;var s=sessOf(a.place,a.session_no);if(s){if(!a.period)a.period=s.s+' ~ '+s.e+' ('+s.nights+'박'+(s.nights+2)+'일)';if(a.total_won==null)a.total_won=s.price+(a.single_rooms?A[s.k].single*s.nights:0)}if(dig(a.phone))keys[a.place+'|'+a.session_no+'|'+dig(a.phone)]=1});DATA.apps.forEach(function(a){a._dup=a.source!=='direct'&&!!keys[a.place+'|'+a.session_no+'|'+dig(a.phone)]})}
 function renderAll(){var n=DATA.apps.filter(function(a){return web(a)&&!a._dup&&a.status==='신청접수'}).length,m=DATA.inq.filter(function(a){return a.status==='신규'}).length;
- $('c-apps').textContent=n;$('c-apps').hidden=!n;$('c-inq').textContent=m;$('c-inq').hidden=!m;
- fillFilters();rDash();rApps();rSess();rInq();rMem()}
+ $('c-apps').textContent=n;$('c-apps').hidden=!n;$('c-inq').textContent=m;$('c-inq').hidden=!m;var rv=DATA.rev.filter(function(r){return r.status==='대기'}).length;$('c-rev').textContent=rv;$('c-rev').hidden=!rv;
+ fillFilters();rDash();rApps();rSess();rInq();rRev();rMem()}
 
 /* ---------- 탭 ---------- */
 var tabs=[].slice.call(document.querySelectorAll('nav.tabs button'));
@@ -288,6 +301,32 @@ function openDirect(a,s){
  document.querySelectorAll('[data-sms]').forEach(function(b){b.onclick=function(){$('sms-t').value=smsText(a,b.dataset.sms)}});
  if($('sms-copy'))$('sms-copy').onclick=function(){var t=$('sms-t');(navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).catch(function(){t.select();document.execCommand('copy')}).then(function(){toast('복사했습니다')})};
 }
+/* ---------- 리뷰 ---------- */
+['fr-st','fr-q'].forEach(function(i){$(i).addEventListener(i==='fr-q'?'input':'change',rRev)});
+function filtRev(){var st=$('fr-st').value,q=$('fr-q').value.trim().replace(/-/g,'');return DATA.rev.filter(function(r){return(!st||r.status===st)&&(!q||[r.name,r.phone,r.body,r.academy].join(' ').replace(/-/g,'').indexOf(q)>=0)})}
+function revStars(n){return '<span style="color:#E0A100">'+'★★★★★'.slice(0,n)+'</span><span style="color:#D3D8D4">'+'★★★★★'.slice(n)+'</span>'}
+function phoneHit(r){var d=dig(r.phone);return d&&DATA.apps.some(function(a){return dig(a.phone)===d})}
+function rRev(){var l=filtRev();$('rev-tbl').innerHTML=!l.length?'<div class="empty">리뷰가 없습니다.</div>':'<table><thead><tr><th>작성일시</th><th>작성자</th><th>아카데미·연도</th><th>별점</th><th>내용</th><th class="num">사진</th><th>상태</th></tr></thead><tbody>'+l.map(function(r){
+ return '<tr class="click" data-rev="'+r.id+'" tabindex="0"><td>'+d8(r.created_at)+'</td><td><b>'+esc(r.name)+'</b>'+(r.verified?' <span class="st" data-s="예약확정">참가 확인</span>':'')+'<div class="sub">'+esc(r.phone||'연락처 없음')+(phoneHit(r)&&!r.verified?' · 신청 기록 있음':'')+'</div></td><td>'+esc(r.academy)+'<div class="sub">'+r.year+'</div></td><td>'+revStars(r.rating)+'</td><td style="max-width:360px;overflow:hidden;text-overflow:ellipsis">'+esc(r.body)+'</td><td class="num">'+((r.photos||[]).length||'-')+'</td><td><span class="st" data-s="'+esc(r.status)+'">'+esc(r.status)+'</span></td></tr>'}).join('')+'</tbody></table>'}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-rev]');if(t)openRev(+t.dataset.rev)});
+function photoPath(u){var m=String(u).match(/\/object\/public\/reviews\/(.+)$/);return m?decodeURIComponent(m[1]):null}
+function openRev(id){var r=DATA.rev.filter(function(x){return x.id===id})[0];if(!r)return;
+ openDlg('<h3 id="dlg-h">'+esc(r.name)+'님 리뷰 <span class="st" data-s="'+esc(r.status)+'">'+esc(r.status)+'</span></h3>'+
+ '<dl class="kv"><dt>작성일시</dt><dd>'+esc(new Date(r.created_at).toLocaleString('ko-KR'))+'</dd><dt>연락처</dt><dd>'+(r.phone?'<a href="tel:'+esc(r.phone)+'">'+esc(r.phone)+'</a>'+(phoneHit(r)?' <span class="sub">· 같은 번호의 아카데미 신청 기록이 있습니다</span>':''):'-')+'</dd><dt>사이트 표시 이름</dt><dd>'+esc(r.display_name||'')+'</dd><dt>아카데미</dt><dd>'+esc(r.academy)+' · '+r.year+'</dd><dt>별점</dt><dd>'+revStars(r.rating)+' '+r.rating+'점</dd><dt>내용</dt><dd>'+esc(r.body)+'</dd></dl>'+
+ ((r.photos||[]).length?'<div style="display:flex;gap:8px;flex-wrap:wrap">'+r.photos.map(function(u){return '<a href="'+esc(u)+'" target="_blank" rel="noopener"><img src="'+esc(u)+'" alt="첨부 사진" style="width:140px;height:140px;object-fit:cover;border-radius:10px;border:1px solid #E1E6E2"></a>'}).join('')+'</div>':'')+
+ '<div class="grid2"><div class="f"><label for="rv-st">상태</label><select id="rv-st">'+['대기','게시','숨김'].map(function(x){return '<option'+(x===r.status?' selected':'')+'>'+x+'</option>'}).join('')+'</select></div>'+
+ '<div class="f" style="justify-content:flex-end"><label style="display:flex;gap:8px;align-items:center;min-height:40px"><input type="checkbox" id="rv-v"'+(r.verified?' checked':'')+' style="width:20px;height:20px;min-height:0"> 참가 확인 표시</label></div>'+
+ '<div class="f" style="grid-column:1/-1"><label for="rv-memo">메모 (내부용)</label><textarea id="rv-memo" rows="2">'+esc(r.memo||'')+'</textarea></div></div>'+
+ '<p id="rv-m" class="msg e" role="alert" hidden></p><div class="acts"><button type="button" class="btn danger" id="rv-del">삭제</button><div style="display:flex;gap:8px"><button type="button" class="btn ghost" id="rv-x">닫기</button><button type="button" class="btn" id="rv-save">저장</button></div></div>');
+ function err(e){$('rv-m').textContent=errMsg(e);$('rv-m').hidden=false}
+ $('rv-x').onclick=closeDlg;
+ $('rv-save').onclick=function(){var b=this,st=$('rv-st').value,v=$('rv-v').checked,memo=$('rv-memo').value;b.disabled=true;
+  sb.rpc('admin_update_review',{rid:r.id,new_status:st,new_verified:v,new_memo:memo}).then(function(res){b.disabled=false;if(res.error)return err(res.error);
+   r.status=st;r.verified=v;r.memo=memo.trim()||null;renderAll();closeDlg();toast(st==='게시'?'사이트에 게시했습니다':'저장했습니다')})};
+ $('rv-del').onclick=function(){if(!confirm('이 리뷰와 첨부 사진을 삭제할까요? 되돌릴 수 없습니다. 게시만 내리려면 상태를 "숨김"으로 바꾸세요.'))return;
+  var paths=(r.photos||[]).map(photoPath).filter(Boolean);
+  (paths.length?sb.storage.from('reviews').remove(paths):Promise.resolve({})).then(function(){return sb.from('reviews').delete().eq('id',r.id)}).then(function(res){if(res.error)return err(res.error);
+   DATA.rev=DATA.rev.filter(function(x){return x.id!==r.id});renderAll();closeDlg();toast('삭제했습니다')})}}
 var dlg=$('dlg'),lastFocus=null;
 function openDlg(html){lastFocus=document.activeElement;$('dlg-b').innerHTML=html;dlg.showModal()}
 function closeDlg(){dlg.close()}
