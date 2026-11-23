@@ -28,7 +28,7 @@ PAST=[('2026 하계','애플 썸머 아카데미 IN 하코다테','2026.08.06 ~ 
 ('2020 하계','애플 SUMMER 골프 아카데미 IN 오크밸리','2020.07.06 ~ 08.16','86a6285270625176b123fd27f9816bf3'),
 ('2019–20 동계','애플 동계 골프 아카데미 IN 태국 로얄젬스','2019.12.24 ~ 2020.03.01','7112b4b130bc9f8e98326c4efc98159b'),
 ('2016–17 동계','JTBC GOLF 동계 아카데미 Live Lesson in Thailand','2016.12.28 ~ 2017.02.27','c88da18bb87b35728827e4e6910efdda')]
-G={'k':('2027 애플 동계 아카데미 IN 칸차나부리',['5e17e56935860e49239df2212e1fbbdd','f5900bd5f2807ba6eb8f5ce34e5db71c','36543fcf7411655c6967b7bc03214b6a','2b58b18a25341c6fb0e1396debd82307','353872baaba5533ca5d4f205485e8f3b']),
+G={'k':('2027 애플 동계 아카데미 IN 칸차나부리',['63817be15cc6e97840e2ca19b9d947ea','ce9aca1fdc8ab83337bc98024cc17825','418144077723dee790599eb51e0803cd','69f5386cc67c90454da4cdbbe371d557','46de9498e38571775e3573a4303faf85']),
 'a':('2027 애플 동계 프레스티지 골프 아카데미 IN 아마타',['94ce0a6a0fa258825e883d2a4b769d6f','c4b40ee771669ccba30a1deb3d495c2b','cc10d732bec05f874e10725150836522','91d28e6530571fe982efed8fa3db5f8b','de4bc0584104304b6c8692473667e7d8','0522c0ee42e005ab98921e2155f027b9','7a8422fc716f119a280673ea80b1472e','180222081a6297d7499a675b922c2346','a9a962d8c9a2f34c7f2db51d60ad4147','15b43a8274fc4a7cea1e673e67a9b515','ba5511ea83cf7d5331dc7ea6547e444f'])}
 CSS='''.card img{transition:transform .5s ease}.card:hover img{transform:scale(1.04)}
 @keyframes rv{from{transform:translateX(0)}to{transform:translateX(-50%)}}
