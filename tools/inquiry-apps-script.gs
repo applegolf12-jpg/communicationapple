@@ -210,7 +210,7 @@ function keepSupabaseAwake() {
   if (!url || !key) return;
   const res = UrlFetchApp.fetch(url.replace(/\/$/, '') + '/rest/v1/rpc/ping', {
     method: 'post', contentType: 'application/json', payload: '{}', muteHttpExceptions: true,
-    headers: { apikey: key, Authorization: 'Bearer ' + key }
+    headers: { apikey: key }
   });
   Logger.log('Supabase ping: ' + res.getResponseCode() + ' ' + res.getContentText());
 }
@@ -219,4 +219,87 @@ function installKeepAlive() {
     .forEach(t => ScriptApp.deleteTrigger(t));
   ScriptApp.newTrigger('keepSupabaseAwake').timeBased().everyDays(1).atHour(4).create();
   keepSupabaseAwake();
+}
+
+
+// ───────── 직접 신청 명단(구글 시트) → 관리자 페이지 동기화 ─────────
+// 스크립트 속성: ROSTER_SHEET_ID(명단 스프레드시트 주소의 /d/와 /edit 사이 값), SUPABASE_URL, SUPABASE_SECRET_KEY(sb_secret_...)
+// installDirectSync 를 한 번 실행하면 10분마다 자동으로 반영됩니다. 바로 반영하려면 syncDirect 실행.
+// 관리자 페이지로는 이름·연락처·그룹·지정 프로·객실 구분·입금·비고·요청사항만 보냅니다.
+// 생년월일·여권번호·영문 이름·이메일은 보내지 않습니다.
+function syncDirect() {
+  const p = PropertiesService.getScriptProperties();
+  const id = p.getProperty('ROSTER_SHEET_ID'), url = p.getProperty('SUPABASE_URL'), key = p.getProperty('SUPABASE_SECRET_KEY');
+  if (!id || !url || !key) throw new Error('스크립트 속성 ROSTER_SHEET_ID, SUPABASE_URL, SUPABASE_SECRET_KEY 를 먼저 넣어 주세요.');
+  const rows = [], report = [];
+  SpreadsheetApp.openById(id).getSheets().forEach(sh => {
+    const r = parseRosterSheet_(sh);
+    if (!r) { report.push('건너뜀: ' + sh.getName()); return; }
+    report.push(sh.getName() + ' → ' + r.place + ' ' + r.session + '차 ' + r.rows.length + '명');
+    r.rows.forEach(x => rows.push(x));
+  });
+  const res = UrlFetchApp.fetch(url.replace(/\/$/, '') + '/rest/v1/rpc/replace_direct', {
+    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { apikey: key }, payload: JSON.stringify({ rows: rows })
+  });
+  Logger.log(report.join('\n'));
+  Logger.log('Supabase: ' + res.getResponseCode() + ' ' + res.getContentText().slice(0, 300));
+  if (res.getResponseCode() >= 300) throw new Error('관리자 페이지 반영 실패: ' + res.getContentText().slice(0, 300));
+  return rows.length;
+}
+
+function parseRosterSheet_(sh) {
+  const v = sh.getDataRange().getDisplayValues();
+  if (v.length < 4) return null;
+  const norm = s => String(s || '').replace(/\s+/g, '');
+  const title = v.slice(0, 2).map(r => r.join(' ')).join(' ');
+  const m = title.match(/(아마[따타]|칸차나부리)\s*\[?\s*(\d+)\s*차/);
+  if (!m) return null;
+  const place = m[1].indexOf('칸') === 0 ? '칸차나부리' : '아마타', session = +m[2];
+  let h = -1;
+  for (let i = 0; i < Math.min(v.length, 8); i++) if (v[i].some(c => norm(c) === '성함')) { h = i; break; }
+  if (h < 0) return null;
+  const top = v[h - 1] || [], sub = v[h];
+  const col = (name, group) => {
+    let g = '';
+    for (let j = 0; j < sub.length; j++) {
+      if (norm(top[j])) g = norm(top[j]);
+      const n = norm(sub[j]) || norm(top[j]);
+      if (n === name && (!group || g === group)) return j;
+    }
+    return -1;
+  };
+  const C = { name: col('성함'), phone: col('연락처'), group: col('그룹'), pro: col('지정프로'), room: col('구분', '객실'),
+    amount: col('금액'), paidAt: col('입금일자'), memo: col('비고'), req: col('요청사항') };
+  if (C.name < 0) return null;
+  const cell = (r, k) => (C[k] >= 0 ? String(r[C[k]] || '').trim() : '');
+  const out = [];
+  for (let i = h + 1; i < v.length; i++) {
+    const r = v[i];
+    if (r.slice(0, 4).some(c => norm(c) === '인원' || norm(c) === '예정')) break;
+    const name = cell(r, 'name');
+    if (!name) continue;
+    const d = cell(r, 'phone').replace(/\D/g, '');
+    const phone = /^01\d{8,9}$/.test(d) ? d.replace(/^(\d{3})(\d{3,4})(\d{4})$/, '$1-$2-$3') : (cell(r, 'phone') || null);
+    const amount = parseInt(cell(r, 'amount').replace(/[^\d]/g, ''), 10) || 0;
+    const pd = cell(r, 'paidAt').match(/(\d{1,2})\s*[\/.]\s*(\d{1,2})/);
+    let paidAt = null;
+    if (pd) {
+      const now = new Date(), dt = new Date(now.getFullYear(), +pd[1] - 1, +pd[2]);
+      if (dt - now > 45 * 864e5) dt.setFullYear(dt.getFullYear() - 1);
+      paidAt = Utilities.formatDate(dt, 'Asia/Seoul', 'yyyy-MM-dd');
+    }
+    out.push({ place: place, session_no: session, name: name.slice(0, 50), phone: phone,
+      group_label: cell(r, 'group') || null, pro: cell(r, 'pro') || null,
+      single_rooms: /1\s*인/.test(cell(r, 'room')) ? 1 : 0,
+      paid_amount: amount, paid_at: paidAt, status: (amount > 0 || paidAt) ? '입금확인' : '신청접수',
+      memo: cell(r, 'memo') || null, request: cell(r, 'req') || null, sheet_row: i + 1 });
+  }
+  return { place: place, session: session, rows: out };
+}
+
+function installDirectSync() {
+  ScriptApp.getProjectTriggers().filter(t => t.getHandlerFunction() === 'syncDirect').forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('syncDirect').timeBased().everyMinutes(10).create();
+  syncDirect();
 }
