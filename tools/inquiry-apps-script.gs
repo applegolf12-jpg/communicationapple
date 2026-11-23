@@ -223,7 +223,7 @@ function installKeepAlive() {
 
 
 // ───────── 직접 신청 명단(구글 시트) → 관리자 페이지 동기화 ─────────
-// 스크립트 속성: ROSTER_SHEET_ID(명단 스프레드시트 주소의 /d/와 /edit 사이 값), SUPABASE_URL, SUPABASE_SECRET_KEY(sb_secret_...)
+// 스크립트 속성: ROSTER_SHEET_ID(명단 스프레드시트 주소의 /d/와 /edit 사이 값. 파일이 여러 개면 쉼표로 구분), SUPABASE_URL, SUPABASE_SECRET_KEY(sb_secret_...)
 // installDirectSync 를 한 번 실행하면 10분마다 자동으로 반영됩니다. 바로 반영하려면 syncDirect 실행.
 // 관리자 페이지로는 이름·연락처·그룹·지정 프로·객실 구분·입금·비고·요청사항만 보냅니다.
 // 생년월일·여권번호·영문 이름·이메일은 보내지 않습니다.
@@ -232,12 +232,12 @@ function syncDirect() {
   const id = p.getProperty('ROSTER_SHEET_ID'), url = p.getProperty('SUPABASE_URL'), key = p.getProperty('SUPABASE_SECRET_KEY');
   if (!id || !url || !key) throw new Error('스크립트 속성 ROSTER_SHEET_ID, SUPABASE_URL, SUPABASE_SECRET_KEY 를 먼저 넣어 주세요.');
   const rows = [], report = [];
-  SpreadsheetApp.openById(id).getSheets().forEach(sh => {
+  id.split(/[\s,]+/).filter(String).forEach(fid => SpreadsheetApp.openById(fid).getSheets().forEach(sh => {
     const r = parseRosterSheet_(sh);
     if (!r) { report.push('건너뜀: ' + sh.getName()); return; }
     report.push(sh.getName() + ' → ' + r.place + ' ' + r.session + '차 ' + r.rows.length + '명');
     r.rows.forEach(x => rows.push(x));
-  });
+  }));
   const res = UrlFetchApp.fetch(url.replace(/\/$/, '') + '/rest/v1/rpc/replace_direct', {
     method: 'post', contentType: 'application/json', muteHttpExceptions: true,
     headers: { apikey: key }, payload: JSON.stringify({ rows: rows })
