@@ -156,8 +156,9 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <script>(function(){function f(v){var d=v.replace(/\D/g,'').slice(0,11);if(d.indexOf('02')===0){d=d.slice(0,10);if(d.length<3)return d;if(d.length<6)return d.slice(0,2)+'-'+d.slice(2);if(d.length<10)return d.slice(0,2)+'-'+d.slice(2,5)+'-'+d.slice(5);return d.slice(0,2)+'-'+d.slice(2,6)+'-'+d.slice(6)}
 if(d.length<4)return d;if(d.length<8)return d.slice(0,3)+'-'+d.slice(3);if(d.length<11)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)}
 document.querySelectorAll('input[type=tel]').forEach(function(el){el.setAttribute('inputmode','numeric');el.setAttribute('maxlength','13');el.addEventListener('input',function(){var p=el.selectionStart,before=el.value.length;el.value=f(el.value);var a=el.value.length-before;try{el.setSelectionRange(p+a,p+a)}catch(e){}})});})();</script>
-<script src="js/config.js?v=9d256725"></script>
-<script src="js/sb.js?v=9d256725"></script>
+<script src="js/config.js?v=581916af"></script>
+<script src="js/sb.js?v=581916af"></script>
+<script src="js/track.js?v=581916af"></script>
 <script>(function(){
 var $=function(i){return document.getElementById(i)},q=new URLSearchParams(location.search),next=q.get('next')||'mypage.html';
 if(!/^[a-z]+\.html(#[\w-]+)?$/.test(next))next='mypage.html';
@@ -192,7 +193,7 @@ $('p-up').addEventListener('submit',function(e){e.preventDefault();
  CA.sb.auth.signUp({email:em,password:pw,options:{data:{name:nm,phone:ph,marketing_sms:$('up-mk').checked},emailRedirectTo:location.origin+'/mypage.html'}}).then(function(r){busy(f,false);
   if(r.error)return say('up-msg',CA.err(r.error));
   if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0)return say('up-msg','이미 가입된 이메일입니다. 로그인하거나 비밀번호 찾기를 이용해 주세요.');
-  if(r.data.session){location.replace(next);return}
+  window.caTrack&&caTrack('회원가입 완료');if(r.data.session){setTimeout(function(){location.replace(next)},300);return}
   f.hidden=true;$('up-done-email').textContent=em;$('up-done').hidden=false;$('up-done').focus()})});
 })();</script>
 

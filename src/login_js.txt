@@ -32,6 +32,6 @@ $('p-up').addEventListener('submit',function(e){e.preventDefault();
  CA.sb.auth.signUp({email:em,password:pw,options:{data:{name:nm,phone:ph,marketing_sms:$('up-mk').checked},emailRedirectTo:location.origin+'/mypage.html'}}).then(function(r){busy(f,false);
   if(r.error)return say('up-msg',CA.err(r.error));
   if(r.data.user&&r.data.user.identities&&r.data.user.identities.length===0)return say('up-msg','이미 가입된 이메일입니다. 로그인하거나 비밀번호 찾기를 이용해 주세요.');
-  if(r.data.session){location.replace(next);return}
+  window.caTrack&&caTrack('회원가입 완료');if(r.data.session){setTimeout(function(){location.replace(next)},300);return}
   f.hidden=true;$('up-done-email').textContent=em;$('up-done').hidden=false;$('up-done').focus()})});
 })();</script>

@@ -140,6 +140,7 @@ def page(out, title, desc, cur, body, css='', js=''):
 {PHONE_JS if 'type="tel"' in body else ''}
 <script src="js/config.js?v={JSV}"></script>
 <script src="js/sb.js?v={JSV}"></script>
+<script src="js/track.js?v={JSV}"></script>
 {js}
 </body>
 </html>
@@ -272,7 +273,7 @@ if(!document.getElementById('f-agree').checked){er.textContent='개인정보 수
 er.hidden=true;btn.disabled=true;btn.textContent='보내는 중…';
 var d=new URLSearchParams({name:v('f-name'),company:v('f-company'),phone:v('f-phone'),email:v('f-email'),type:v('f-type'),size:v('f-size'),date:v('f-date'),msg:v('f-msg'),website:v('f-web')});
 var dbp=(!window.CA||v('f-web'))?Promise.reject('off'):CA.save('inquiries',{name:v('f-name'),company:v('f-company')||null,phone:v('f-phone'),email:v('f-email')||null,type:v('f-type')||null,size:v('f-size')||null,event_date:v('f-date')||null,message:v('f-msg')});
-Promise.allSettled([dbp,fetch(URL_,{method:'POST',mode:'no-cors',body:d})]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;f.hidden=true;done.hidden=false;done.focus();window.scrollTo({top:done.getBoundingClientRect().top+scrollY-120,behavior:'smooth'});})
+Promise.allSettled([dbp,fetch(URL_,{method:'POST',mode:'no-cors',body:d})]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;f.hidden=true;done.hidden=false;window.caTrack&&caTrack('행사 문의 완료');done.focus();window.scrollTo({top:done.getBoundingClientRect().top+scrollY-120,behavior:'smooth'});})
 .catch(function(){er.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';er.hidden=false;btn.disabled=false;btn.textContent='문의 보내기';});});
 document.getElementById('inq-again').addEventListener('click',function(){f.reset();f.hidden=false;done.hidden=true;btn.disabled=false;btn.textContent='문의 보내기';});})();</script>'''
 page('contact.html', '행사 문의·오시는 길 | 커뮤니케이션 애플', '골프 행사, 이벤트 프로암, 애플골프아카데미 문의. 경기도 성남시 분당구 성남대로 51.', 'contact.html', open(SRC + 'contact.body.html').read(), js=cjs)

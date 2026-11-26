@@ -130,8 +130,9 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <script>(function(){function f(v){var d=v.replace(/\D/g,'').slice(0,11);if(d.indexOf('02')===0){d=d.slice(0,10);if(d.length<3)return d;if(d.length<6)return d.slice(0,2)+'-'+d.slice(2);if(d.length<10)return d.slice(0,2)+'-'+d.slice(2,5)+'-'+d.slice(5);return d.slice(0,2)+'-'+d.slice(2,6)+'-'+d.slice(6)}
 if(d.length<4)return d;if(d.length<8)return d.slice(0,3)+'-'+d.slice(3);if(d.length<11)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)}
 document.querySelectorAll('input[type=tel]').forEach(function(el){el.setAttribute('inputmode','numeric');el.setAttribute('maxlength','13');el.addEventListener('input',function(){var p=el.selectionStart,before=el.value.length;el.value=f(el.value);var a=el.value.length-before;try{el.setSelectionRange(p+a,p+a)}catch(e){}})});})();</script>
-<script src="js/config.js?v=9d256725"></script>
-<script src="js/sb.js?v=9d256725"></script>
+<script src="js/config.js?v=581916af"></script>
+<script src="js/sb.js?v=581916af"></script>
+<script src="js/track.js?v=581916af"></script>
 <script>(function(){var URL_='https://script.google.com/macros/s/AKfycbzhxdmpaMAjDgBlKLcWKRUhzRguJeHrj44hPz4J7pTjutgs4Lx3ZFxxPX8HWqaTiKO3/exec';
 var f=document.getElementById('inq'),er=document.getElementById('f-err'),btn=f.querySelector('button[type=submit]'),done=document.getElementById('inq-done');
 function v(id){return document.getElementById(id).value.trim()}
@@ -141,7 +142,7 @@ if(!document.getElementById('f-agree').checked){er.textContent='개인정보 수
 er.hidden=true;btn.disabled=true;btn.textContent='보내는 중…';
 var d=new URLSearchParams({name:v('f-name'),company:v('f-company'),phone:v('f-phone'),email:v('f-email'),type:v('f-type'),size:v('f-size'),date:v('f-date'),msg:v('f-msg'),website:v('f-web')});
 var dbp=(!window.CA||v('f-web'))?Promise.reject('off'):CA.save('inquiries',{name:v('f-name'),company:v('f-company')||null,phone:v('f-phone'),email:v('f-email')||null,type:v('f-type')||null,size:v('f-size')||null,event_date:v('f-date')||null,message:v('f-msg')});
-Promise.allSettled([dbp,fetch(URL_,{method:'POST',mode:'no-cors',body:d})]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;f.hidden=true;done.hidden=false;done.focus();window.scrollTo({top:done.getBoundingClientRect().top+scrollY-120,behavior:'smooth'});})
+Promise.allSettled([dbp,fetch(URL_,{method:'POST',mode:'no-cors',body:d})]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;f.hidden=true;done.hidden=false;window.caTrack&&caTrack('행사 문의 완료');done.focus();window.scrollTo({top:done.getBoundingClientRect().top+scrollY-120,behavior:'smooth'});})
 .catch(function(){er.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';er.hidden=false;btn.disabled=false;btn.textContent='문의 보내기';});});
 document.getElementById('inq-again').addEventListener('click',function(){f.reset();f.hidden=false;done.hidden=true;btn.disabled=false;btn.textContent='문의 보내기';});})();</script>
 </body>

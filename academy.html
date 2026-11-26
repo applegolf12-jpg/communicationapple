@@ -296,9 +296,10 @@ label{font-size:14px;font-weight:700}.fld{display:flex;flex-direction:column;gap
 <script>(function(){function f(v){var d=v.replace(/\D/g,'').slice(0,11);if(d.indexOf('02')===0){d=d.slice(0,10);if(d.length<3)return d;if(d.length<6)return d.slice(0,2)+'-'+d.slice(2);if(d.length<10)return d.slice(0,2)+'-'+d.slice(2,5)+'-'+d.slice(5);return d.slice(0,2)+'-'+d.slice(2,6)+'-'+d.slice(6)}
 if(d.length<4)return d;if(d.length<8)return d.slice(0,3)+'-'+d.slice(3);if(d.length<11)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)}
 document.querySelectorAll('input[type=tel]').forEach(function(el){el.setAttribute('inputmode','numeric');el.setAttribute('maxlength','13');el.addEventListener('input',function(){var p=el.selectionStart,before=el.value.length;el.value=f(el.value);var a=el.value.length-before;try{el.setSelectionRange(p+a,p+a)}catch(e){}})});})();</script>
-<script src="js/config.js?v=9d256725"></script>
-<script src="js/sb.js?v=9d256725"></script>
-<script src="js/academy-data.js?v=9d256725"></script>
+<script src="js/config.js?v=581916af"></script>
+<script src="js/sb.js?v=581916af"></script>
+<script src="js/track.js?v=581916af"></script>
+<script src="js/academy-data.js?v=581916af"></script>
 <script>(function(){
 var URL_='https://script.google.com/macros/s/AKfycbzhxdmpaMAjDgBlKLcWKRUhzRguJeHrj44hPz4J7pTjutgs4Lx3ZFxxPX8HWqaTiKO3/exec';
 var DOW=['일','월','화','수','목','금','토'];
@@ -356,7 +357,7 @@ f.addEventListener('submit',function(e){e.preventDefault();var m=check();
  var dbp=bot?Promise.reject('bot'):CA.save('academy_applications',row);
  var gp=fetch(URL_,{method:'POST',mode:'no-cors',body:d});
  Promise.allSettled([dbp,gp]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;
-  $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})
+  $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;window.caTrack&&caTrack('아카데미 신청 완료 ('+row.place+')');$('ap-done').focus()})
  .catch(function(){err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';err.hidden=false;btn.disabled=false;btn.textContent='신청서 보내기'})});
 $('ap-again').addEventListener('click',function(){f.reset();f.hidden=false;$('ap-done').hidden=true;var b=f.querySelector('button[type=submit]');b.disabled=false;b.textContent='신청서 보내기';fillSess();fillPro();fillN();phoneMatch()});
 fillSess();fillPro();fillN();
@@ -427,7 +428,7 @@ $('ur-form').addEventListener('submit',function(e){e.preventDefault();
   /schema cache|does not exist|Could not find|not found/i.test(em)?'리뷰 기능을 준비 중입니다. 잠시 후 다시 이용해 주세요.':
   (files.length?'리뷰를 등록하지 못했습니다. 사진 용량이 크거나 연결이 불안정할 수 있습니다. 잠시 후 다시 시도해 주세요.':'리뷰를 등록하지 못했습니다. 잠시 후 다시 시도해 주세요.')+' (오류: '+em.slice(0,80)+')')})
  .then(function(){b.disabled=false;b.textContent='리뷰 등록'})});
-function done(){var f=$('ur-form');f.reset();files=[];$('ur-prev').innerHTML='';$('ur-cnt').textContent='0 / 2000';$('ur-etc-w').hidden=$('ur-yr-w').hidden=true;f.hidden=true;$('ur-open').setAttribute('aria-expanded','false');$('ur-done').hidden=false;$('ur-done').focus()}
+function done(){window.caTrack&&caTrack('리뷰 등록 완료');var f=$('ur-form');f.reset();files=[];$('ur-prev').innerHTML='';$('ur-cnt').textContent='0 / 2000';$('ur-etc-w').hidden=$('ur-yr-w').hidden=true;f.hidden=true;$('ur-open').setAttribute('aria-expanded','false');$('ur-done').hidden=false;$('ur-done').focus()}
 (window.CA?CA.ready:Promise.resolve()).then(load);
 })();</script>
 

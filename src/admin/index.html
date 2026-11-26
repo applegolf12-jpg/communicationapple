@@ -95,6 +95,7 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 <header class="top"><b>COMMUNICATION APPLE · 관리자</b><div class="who"><span id="who"></span><a href="../" style="color:#C9DAD1">사이트 보기</a><button class="btn ghost" id="out" type="button">로그아웃</button></div></header>
 <nav class="tabs" role="tablist" aria-label="관리 메뉴">
 <button role="tab" data-t="dash" aria-selected="true">대시보드</button>
+<button role="tab" data-t="stat">방문 통계</button>
 <button role="tab" data-t="apps">아카데미 신청<span class="cnt" id="c-apps" hidden></span></button>
 <button role="tab" data-t="sess">차수별 현황</button>
 <button role="tab" data-t="inq">행사 문의<span class="cnt" id="c-inq" hidden></span></button>
@@ -103,6 +104,8 @@ dialog::backdrop{background:rgba(14,42,33,.45)}
 </nav>
 <main>
 <section class="panel" id="t-dash"></section>
+
+<section class="panel" id="t-stat" hidden></section>
 
 <section class="panel" id="t-apps" hidden>
 <div class="card">
@@ -184,7 +187,7 @@ if(!C.url||!C.key){$('boot').textContent='Supabase 연결 정보가 아직 설�
 if(!window.supabase){$('boot').textContent='로그인 모듈(cdn.jsdelivr.net)을 불러오지 못했습니다. 인터넷 연결이나 광고 차단 확장 프로그램을 확인한 뒤 새로고침해 주세요.';return}
 sb=supabase.createClient(C.url,C.key);
 function enter(user){return sb.rpc('is_admin').then(function(r){if(r.error||!r.data){return sb.auth.signOut().then(function(){show('login');var m=$('lg-m');m.textContent='관리자 권한이 없는 계정입니다.';m.hidden=false})}
- me=user;$('who').textContent=user.email;show('app');return loadAll()})}
+ me=user;$('who').textContent=user.email;show('app');if(!$('t-stat').hidden)rStats();return loadAll()})}
 sb.auth.getSession().then(function(r){var u=r.data.session&&r.data.session.user;if(u)return enter(u);show('login')});
 $('login').querySelector('form').addEventListener('submit',function(e){e.preventDefault();var m=$('lg-m'),b=this.querySelector('button');m.hidden=true;b.disabled=true;
  sb.auth.signInWithPassword({email:$('lg-e').value.trim(),password:$('lg-p').value}).then(function(r){b.disabled=false;if(r.error){m.textContent=errMsg(r.error);m.hidden=false;return}return enter(r.data.user)})});
@@ -206,7 +209,7 @@ function renderAll(){var n=DATA.apps.filter(function(a){return web(a)&&!a._dup&&
 
 /* ---------- 탭 ---------- */
 var tabs=[].slice.call(document.querySelectorAll('nav.tabs button'));
-tabs.forEach(function(b){b.onclick=function(){tabs.forEach(function(x){x.setAttribute('aria-selected',x===b);$('t-'+x.dataset.t).hidden=x!==b});history.replaceState(null,'','#'+b.dataset.t)}});
+tabs.forEach(function(b){b.onclick=function(){tabs.forEach(function(x){x.setAttribute('aria-selected',x===b);$('t-'+x.dataset.t).hidden=x!==b});history.replaceState(null,'','#'+b.dataset.t);if(b.dataset.t==='stat'&&sb&&me)rStats()}});
 var h=location.hash.slice(1);tabs.forEach(function(b){if(b.dataset.t===h)b.click()});
 function go(t){tabs.filter(function(b){return b.dataset.t===t})[0].click();window.scrollTo(0,0)}
 
@@ -327,6 +330,30 @@ function openRev(id){var r=DATA.rev.filter(function(x){return x.id===id})[0];if(
   var paths=(r.photos||[]).map(photoPath).filter(Boolean);
   (paths.length?sb.storage.from('reviews').remove(paths):Promise.resolve({})).then(function(){return sb.from('reviews').delete().eq('id',r.id)}).then(function(res){if(res.error)return err(res.error);
    DATA.rev=DATA.rev.filter(function(x){return x.id!==r.id});renderAll();closeDlg();toast('삭제했습니다')})}}
+/* ---------- 방문 통계 ---------- */
+var PN={'/':'홈','/proam.html':'이벤트 프로암','/corporate.html':'기업·VIP 행사','/academy.html':'애플골프아카데미','/contact.html':'행사 문의','/login.html':'로그인·회원가입','/mypage.html':'마이페이지','/privacy.html':'개인정보처리방침','/404.html':'없는 페이지'};
+var DV={mobile:'모바일',tablet:'태블릿',desktop:'PC'};
+function bars(list,key,label,valLabel){var mx=Math.max.apply(null,list.map(function(x){return x[key]}).concat([1]));
+ return list.length?'<table><tbody>'+list.map(function(x){return '<tr><td style="white-space:normal;min-width:140px">'+esc(label(x))+'</td><td style="width:55%"><div class="meter" style="height:10px"><i style="width:'+Math.round(x[key]/mx*100)+'%"></i></div></td><td class="num"><b>'+x[key].toLocaleString('ko-KR')+'</b>'+(valLabel?valLabel(x):'')+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty">기록이 없습니다.</div>'}
+function rStats(){var el=$('t-stat'),d=+($('fs-d')&&$('fs-d').value||7);
+ el.innerHTML='<div class="card"><div class="bar"><div class="f"><label for="fs-d">기간</label><select id="fs-d"><option value="1">오늘</option><option value="7">최근 7일</option><option value="30">최근 30일</option><option value="90">최근 90일</option><option value="365">최근 1년</option></select></div><button class="btn ghost" id="fs-r" type="button">새로고침</button></div><p class="sub" style="margin:12px 0 0;line-height:1.6">쿠키와 IP 없이, 브라우저마다 임의 번호를 붙여 셉니다. 같은 사람이 휴대폰과 PC로 들어오면 2명으로, 광고 차단 프로그램을 쓰는 방문자는 빠질 수 있어 <b>실제보다 조금 적거나 많을 수 있습니다.</b> 관리자 본인의 방문도 포함됩니다.</p></div><div id="st-body"><div class="empty">불러오는 중…</div></div>';
+ $('fs-d').value=String(d);$('fs-d').onchange=rStats;$('fs-r').onclick=rStats;
+ sb.rpc('admin_stats',{days:d}).then(function(r){var b=$('st-body');if(r.error){b.innerHTML='<div class="card"><p class="msg e">통계를 불러오지 못했습니다. Supabase에 방문 통계 SQL(supabase-migration-04-analytics.sql)을 실행했는지 확인해 주세요.</p></div>';return}
+  var s=r.data||{},daily=s.daily||[];
+  var applies=(s.actions||[]).filter(function(a){return /신청 완료|문의 완료/.test(a.k)}).reduce(function(t,a){return t+a.count},0);
+  function kpi(l,v,sub){return '<div class="kpi"><span>'+l+'</span><b>'+v+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</div>'}
+  // 날짜 빈칸 채우기
+  var map={};daily.forEach(function(x){map[x.d]=x});var days=[],t=new Date();for(var i=d-1;i>=0;i--){var x=new Date(t);x.setDate(t.getDate()-i);var k=ymd(x);days.push(map[k]||{d:k,visitors:0,views:0})}
+  var mx=Math.max.apply(null,days.map(function(x){return x.views}).concat([1]));
+  var chart=d===1?'':'<div class="card"><h2>일별 방문</h2><div style="display:flex;align-items:flex-end;gap:'+(d>60?1:3)+'px;height:180px;padding-top:10px" role="img" aria-label="일별 방문자와 페이지뷰 막대 그래프">'+days.map(function(x){return '<div title="'+x.d+' · 방문자 '+x.visitors+'명 · 페이지뷰 '+x.views+'" style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative"><div style="height:'+(x.views/mx*100)+'%;background:#C9DAD1;border-radius:3px 3px 0 0;position:relative"><div style="position:absolute;left:0;right:0;bottom:0;height:'+(x.views?x.visitors/x.views*100:0)+'%;background:#1F4D3F;border-radius:3px 3px 0 0"></div></div></div>'}).join('')+'</div><div style="display:flex;justify-content:space-between" class="sub"><span>'+days[0].d+'</span><span><span style="display:inline-block;width:10px;height:10px;background:#1F4D3F;border-radius:2px"></span> 방문자 &nbsp; <span style="display:inline-block;width:10px;height:10px;background:#C9DAD1;border-radius:2px"></span> 페이지뷰</span><span>'+days[days.length-1].d+'</span></div></div>';
+  var hrs=new Array(24).fill(0);(s.hours||[]).forEach(function(x){hrs[x.h]=x.views});var hm=Math.max.apply(null,hrs.concat([1]));
+  b.innerHTML='<div class="panel"><div class="kpis">'+kpi('방문자',(s.visitors||0).toLocaleString('ko-KR')+'명','처음 온 방문자 '+(s.new_visitors||0)+'명')+kpi('방문 횟수',(s.sessions||0).toLocaleString('ko-KR')+'회','30분 이상 쉬면 새 방문')+kpi('페이지뷰',(s.views||0).toLocaleString('ko-KR'),s.sessions?'방문당 '+(s.views/s.sessions).toFixed(1)+'페이지':'')+kpi('신청·문의 완료',applies+'건',s.visitors?'방문자 대비 '+(applies/s.visitors*100).toFixed(1)+'%':'')+'</div>'+chart+
+  '<div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:18px"><div class="card"><h2>많이 본 페이지</h2>'+bars(s.pages||[],'views',function(x){return PN[x.k]||x.k},function(x){return ' <span class="sub">('+x.visitors+'명)</span>'})+'</div>'+
+  '<div class="card"><h2>어디서 왔나 (유입 경로)</h2>'+bars(s.refs||[],'sessions',function(x){return x.k},function(){return '<span class="sub">회</span>'})+'<p class="sub" style="margin:10px 0 0">검색어는 여기서 보이지 않습니다. 네이버 서치어드바이저·구글 서치 콘솔에서 확인하세요.</p></div>'+
+  '<div class="card"><h2>방문자가 한 행동</h2>'+bars(s.actions||[],'count',function(x){return x.k},function(x){return ' <span class="sub">('+x.visitors+'명)</span>'})+'</div>'+
+  '<div class="card"><h2>기기</h2>'+bars(s.devices||[],'visitors',function(x){return DV[x.k]||x.k},function(){return '<span class="sub">명</span>'})+
+  '<h2 style="margin-top:22px">시간대별 페이지뷰</h2><div style="display:flex;align-items:flex-end;gap:2px;height:90px" role="img" aria-label="시간대별 페이지뷰">'+hrs.map(function(v,h){return '<div title="'+h+'시 · '+v+'" style="flex:1;height:'+(v/hm*100)+'%;min-height:1px;background:#1F4D3F;border-radius:2px 2px 0 0;opacity:'+(v?1:.2)+'"></div>'}).join('')+'</div><div class="sub" style="display:flex;justify-content:space-between"><span>0시</span><span>12시</span><span>23시</span></div></div></div></div>'});
+ if(!rStats.purged){rStats.purged=1;sb.rpc('admin_purge_events').then(function(){},function(){})}}
 var dlg=$('dlg'),lastFocus=null;
 function openDlg(html){lastFocus=document.activeElement;$('dlg-b').innerHTML=html;dlg.showModal()}
 function closeDlg(){dlg.close()}

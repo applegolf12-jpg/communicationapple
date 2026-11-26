@@ -55,7 +55,7 @@ f.addEventListener('submit',function(e){e.preventDefault();var m=check();
  var dbp=bot?Promise.reject('bot'):CA.save('academy_applications',row);
  var gp=fetch(URL_,{method:'POST',mode:'no-cors',body:d});
  Promise.allSettled([dbp,gp]).then(function(rs){if(rs[0].status==='rejected'&&rs[1].status==='rejected')throw 0;
-  $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;$('ap-done').focus()})
+  $('ap-done-mem').hidden=!CA.user;$('ap-done-join').hidden=!!CA.user||!CA.on;f.hidden=true;$('ap-done').hidden=false;window.caTrack&&caTrack('아카데미 신청 완료 ('+row.place+')');$('ap-done').focus()})
  .catch(function(){err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하시거나 031-625-9017로 전화 주세요.';err.hidden=false;btn.disabled=false;btn.textContent='신청서 보내기'})});
 $('ap-again').addEventListener('click',function(){f.reset();f.hidden=false;$('ap-done').hidden=true;var b=f.querySelector('button[type=submit]');b.disabled=false;b.textContent='신청서 보내기';fillSess();fillPro();fillN();phoneMatch()});
 fillSess();fillPro();fillN();

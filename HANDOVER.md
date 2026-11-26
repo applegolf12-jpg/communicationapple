@@ -31,7 +31,7 @@
 - `src/js/config.js`: Supabase URL과 **publishable(공개용) 키**만. `memberOpen: false`로 바꾸면 사이트의 로그인·회원가입만 숨김
 - Apps Script ① 스크립트 속성: `SUPABASE_URL`, `SUPABASE_KEY`(publishable), `ACADEMY_SHEET_ID`
 - Apps Script ② 스크립트 속성: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`(**비밀 키, 절대 공유 금지**), `ROSTER_SHEET_ID`(명단 파일 ID, 여러 개면 쉼표)
-- Supabase SQL: `tools/supabase-schema.sql`, `tools/supabase-migration-02-direct.sql` (이미 적용됨)
+- Supabase SQL: `tools/supabase-schema.sql`, `tools/supabase-migration-02-direct.sql`, `-03-reviews.sql`(리뷰), `-04-analytics.sql`(방문 통계)
 - Apps Script 코드: `tools/inquiry-apps-script.gs`
   - ①을 고친 뒤에는 **배포 → 배포 관리 → 수정 → 새 버전**. '새 배포'는 주소가 바뀌어 홈페이지 신청이 끊김
   - ②는 배포하지 않음
