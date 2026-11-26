@@ -55,7 +55,7 @@ FOOTER = '''<footer style="background: #0E2A21; color: #DCE9E2; padding: 56px 24
 <a href="proam.html" style="color: #DCE9E2; text-decoration: none">이벤트 프로암</a>
 <a href="corporate.html" style="color: #DCE9E2; text-decoration: none">기업·VIP 행사</a>
 <a href="academy.html" style="color: #DCE9E2; text-decoration: none">애플골프아카데미</a>
-<a href="contact.html" style="color: #DCE9E2; text-decoration: none">문의·오시는 길</a>
+<a href="contact.html" style="color: #DCE9E2; text-decoration: none">문의 · 오시는 길</a>
 <a href="privacy.html" style="color: #FFFFFF; text-decoration: none; font-weight: 700">개인정보처리방침</a>
 </nav>
 </div>
